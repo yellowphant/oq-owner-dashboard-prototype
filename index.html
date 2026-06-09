@@ -287,6 +287,11 @@
   .stl-box .k{font-size:11.5px;font-weight:700;color:var(--ink-2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
   .stl-box .v{font-size:21px;font-weight:800;letter-spacing:0}
   .stl-box.in .v{color:var(--good)}.stl-box.pend .v{color:var(--brand-strong)}.stl-box.more .v{color:var(--blue)}
+  .stl-box.pend.is-empty{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 12px}
+  .stl-box.pend.is-empty .k{grid-column:1/-1;margin-bottom:0}
+  .stl-box .empty-title{font-size:14px;font-weight:800;color:var(--ink-2);line-height:1.35;margin-top:0}
+  .stl-box .empty-copy{font-size:11px;color:var(--ink-3);font-weight:600;line-height:1.42;margin-top:3px;word-break:keep-all}
+  .stl-box .box-connect{border:1px solid #222222;background:#222222;color:#fff;border-radius:4px;padding:8px 10px;font-family:inherit;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;white-space:nowrap}
   .stl-box .when{font-size:11.5px;color:var(--ink-3);font-weight:600;margin-top:4px}
   .stl-rows{display:flex;flex-direction:column;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .stl-row{display:grid;grid-template-columns:minmax(130px,1fr) minmax(92px,.62fr) minmax(112px,.76fr) minmax(108px,.58fr) minmax(144px,.85fr);align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}
@@ -394,6 +399,9 @@
     .stl-cell .v{font-size:13.5px}
     .stl-cell.deposit-cell{grid-column:1/-1;background:var(--good-soft);border-radius:5px;padding:9px 10px}
     .stl-cell.deposit-cell .v{font-size:16px}
+    .stl-box.pend.is-empty{grid-template-columns:1fr}
+    .stl-box.pend.is-empty .k{grid-column:auto}
+    .stl-box .box-connect{justify-self:start;margin-top:2px}
     .connect-strip{align-items:flex-start;flex-direction:column}
     .connect-chips{justify-content:flex-start}
     .hero .big{font-size:29px}
@@ -476,7 +484,7 @@
     <section class="card span-2 order-settlement">
       <div class="card-head">
         <span class="card-title">입금 예정 · 정산 현황</span>
-        <div class="card-actions"><button class="connect-btn" type="button" data-open-connect>연동하기</button></div>
+        <div class="card-actions"><button class="connect-btn" type="button" data-open-connect>데이터 연동하기</button></div>
       </div>
       <div class="card-sub with-stamp"><span>연동된 카드·배달앱 정산 데이터를 기준으로 입금 예정액을 보여줘요.</span><span class="stamp">오늘 06:00 기준</span></div>
       <div class="connect-strip">
@@ -489,7 +497,7 @@
       </div>
       <div class="stl-top">
         <div class="stl-box in"><div class="k">오늘 입금액</div><div class="v">4,708,230원</div><div class="when">카드사 3곳 + 배민 정산 예정</div></div>
-        <div class="stl-box pend"><div class="k">이번 주 확정 입금</div><div class="v">7,547,020원</div><div class="when">정산일 확정 대기분 포함</div></div>
+        <div class="stl-box pend is-empty"><div class="k">이번 주 확정 입금</div><div><div class="empty-title">데이터 연동 전이에요.</div><div class="empty-copy">연동 후 확정 입금액을 확인할 수 있어요.</div></div><button class="box-connect" type="button" data-open-connect>데이터 연동하기</button></div>
         <div class="stl-box more"><div class="k">추가 입금 예상</div><div class="v">3,286,000원</div><div class="when">오늘 06:00 이후 결제·주문분</div></div>
       </div>
       <div class="stl-alert priority">
@@ -754,8 +762,12 @@
   connectModal.addEventListener('click',e=>{if(e.target===connectModal)closeConnect();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&connectModal.classList.contains('is-open'))closeConnect();});
   document.getElementById('connectSubmit').addEventListener('click',()=>{
-    document.querySelector('.connect-copy').innerHTML='<b>연동 요청됨</b> — 여신금융협회·배달의민족·쿠팡이츠 데이터를 확인하는 중이에요.';
-    document.querySelectorAll('.connect-chip').forEach(chip=>chip.textContent=chip.textContent+' 확인중');
+    document.querySelector('.connect-copy').innerHTML='<b>데이터 연동 완료</b> — 카드·배달앱 정산 데이터를 기준으로 확정 입금액을 확인했어요.';
+    document.querySelectorAll('.connect-chip').forEach(chip=>chip.textContent=chip.textContent.replace(' 확인중','')+' 연동됨');
+    const pendingBox=document.querySelector('.stl-box.pend');
+    pendingBox.classList.remove('is-empty');
+    pendingBox.innerHTML='<div class="k">이번 주 확정 입금</div><div class="v">7,547,020원</div><div class="when">여신금융협회 + 배달앱 정산 연동</div>';
+    animateMetric(pendingBox.querySelector('.v'),7547020,{suffix:'원',duration:680});
     closeConnect();
   });
   const tip=document.createElement('div');
@@ -855,7 +867,6 @@
   animateMetricWhenVisible(document.querySelector('.peer-rank-big .num'),8,{suffix:'위',duration:430});
   animateMetricWhenVisible(document.querySelector('.comp-rank-big .num'),8,{suffix:'위',duration:430});
   animateMetric(document.querySelector('.stl-box.in .v'),4708230,{suffix:'원',duration:620});
-  animateMetric(document.querySelector('.stl-box.pend .v'),7547020,{suffix:'원',duration:680});
   animateMetric(document.querySelector('.stl-box.more .v'),3286000,{suffix:'원',duration:700});
   document.querySelectorAll('.hsrc .v').forEach((el,i)=>{
     const metrics=[
