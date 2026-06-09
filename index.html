@@ -74,7 +74,11 @@
   .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:10px}
   .card-title{font-size:15px;font-weight:800;letter-spacing:0}
   .card-sub{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-bottom:16px}
+  .card-sub.with-stamp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .card-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .stamp{font-size:11px;color:var(--ink-3);font-weight:500;flex-shrink:0}
+  .connect-btn{border:1px solid #222222;background:#222222;color:#fff;border-radius:4px;padding:7px 11px;font-family:inherit;font-size:11.5px;font-weight:800;line-height:1;cursor:pointer}
+  .connect-btn.secondary{background:#fff;color:var(--brand-ink)}
   .ai-badge{display:inline-flex;align-items:center;gap:6px;background:var(--ai-soft);color:var(--ink-2);border:1px solid var(--line-2);font-size:11px;font-weight:700;
     padding:5px 10px;border-radius:4px;letter-spacing:0;flex-shrink:0}
   .ai-badge svg{width:12px;height:12px}
@@ -270,6 +274,12 @@
   .comp-item .dist{margin-left:auto;color:var(--ink-3);font-weight:600;font-size:11.5px}
   .comp-foot{font-size:12px;color:var(--ink-3);font-weight:600;margin-top:14px}
   .stl-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:4px 0 16px}
+  .connect-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ai-soft);border:1px solid var(--line-2);border-radius:5px;padding:12px 13px;margin:-2px 0 14px}
+  .connect-copy{font-size:12.5px;color:var(--ink-2);font-weight:600;line-height:1.5}
+  .connect-copy b{font-weight:800;color:var(--brand-ink)}
+  .connect-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .connect-chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);border-radius:999px;padding:5px 8px;font-size:10.5px;font-weight:800;white-space:nowrap}
+  .connect-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand)}
   .stl-box{border-radius:5px;padding:15px;border:1px solid var(--line)}
   .stl-box.in{background:var(--good-soft);border-color:transparent}
   .stl-box.pend{background:var(--warn-soft);border-color:transparent}
@@ -294,6 +304,24 @@
   .stl-alert .ico{flex-shrink:0;width:18px;height:18px}
   .stl-alert .txt{font-size:12.5px;color:var(--brand-ink);font-weight:500}
   .stl-alert .txt b{font-weight:800}
+  .connect-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(16,16,16,.42)}
+  .connect-modal.is-open{display:flex}
+  .connect-panel{width:min(760px,100%);max-height:min(86vh,760px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;box-shadow:0 22px 60px rgba(0,0,0,.16)}
+  .connect-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+  .connect-head h2{font-size:19px;font-weight:800;letter-spacing:0}
+  .connect-head p{font-size:12.5px;color:var(--ink-3);font-weight:600;margin-top:3px}
+  .modal-close{width:32px;height:32px;border:1px solid var(--line-2);background:#fff;border-radius:5px;font-size:20px;line-height:1;cursor:pointer;color:var(--ink-3)}
+  .provider-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .provider-card{border:1px solid var(--line);border-radius:6px;padding:14px;background:var(--ai-soft)}
+  .provider-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+  .provider-name{font-size:13.5px;font-weight:800;color:var(--ink)}
+  .provider-tag{font-size:10.5px;font-weight:800;color:var(--brand-ink);background:var(--brand-soft);border-radius:999px;padding:3px 7px;white-space:nowrap}
+  .provider-field{display:flex;flex-direction:column;gap:5px;margin-top:9px}
+  .provider-field label{font-size:10.5px;color:var(--ink-3);font-weight:800}
+  .provider-field input{height:36px;border:1px solid var(--line);border-radius:5px;background:#fff;padding:0 10px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink)}
+  .provider-help{font-size:11px;color:var(--ink-3);font-weight:600;line-height:1.45;margin-top:10px}
+  .modal-note{margin-top:14px;background:var(--blue-soft);border:1px solid rgba(0,124,255,.14);border-radius:5px;padding:11px 12px;font-size:12px;color:var(--ink-2);font-weight:600;line-height:1.5}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
   .cardchip{font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;color:#fff}
   .price-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:22px;align-items:center}
   .price-summary{border:1px solid var(--line);border-radius:5px;padding:16px;background:var(--ai-soft)}
@@ -344,6 +372,8 @@
     .ai-suggest{gap:10px}
     .ai-suggest .ai-badge{min-height:26px}
     .ai-suggest .txt{font-size:12.8px;line-height:1.6}
+    .card-head{align-items:flex-start}
+    .card-actions{flex-direction:column;align-items:flex-end}
     .forecast-main{align-items:center;margin-bottom:13px}
     .forecast-main .big{width:100%}
     .hero-grid{grid-template-columns:1fr;gap:24px}
@@ -364,6 +394,8 @@
     .stl-cell .v{font-size:13.5px}
     .stl-cell.deposit-cell{grid-column:1/-1;background:var(--good-soft);border-radius:5px;padding:9px 10px}
     .stl-cell.deposit-cell .v{font-size:16px}
+    .connect-strip{align-items:flex-start;flex-direction:column}
+    .connect-chips{justify-content:flex-start}
     .hero .big{font-size:29px}
     .wrap{padding:0 14px}.head-inner{padding:13px 14px}.card{padding:18px}
     .card:not(.is-visible)::after{inset:18px}
@@ -388,6 +420,8 @@
     .tm-val{width:auto}
     .tm-meta{font-size:11.5px;padding:3px 7px;margin-top:0}
     .stl-top{grid-template-columns:1fr}
+    .provider-list{grid-template-columns:1fr}
+    .connect-panel{padding:18px}
   }
 </style>
 </head>
@@ -440,8 +474,19 @@
     </section>
 
     <section class="card span-2 order-settlement">
-      <div class="card-head"><span class="card-title">입금 예정 · 정산 현황</span><span class="stamp">오늘 06:00 기준</span></div>
-      <div class="card-sub">확정된 입금액과 아직 정산 일정이 잡히지 않은 결제분을 나눠봤어요 (더미 데이터)</div>
+      <div class="card-head">
+        <span class="card-title">입금 예정 · 정산 현황</span>
+        <div class="card-actions"><button class="connect-btn" type="button" data-open-connect>연동하기</button></div>
+      </div>
+      <div class="card-sub with-stamp"><span>연동된 카드·배달앱 정산 데이터를 기준으로 입금 예정액을 보여줘요.</span><span class="stamp">오늘 06:00 기준</span></div>
+      <div class="connect-strip">
+        <div class="connect-copy"><b>정확한 입금 예정액</b>은 카드·배달앱 계정 연동 후 자동으로 확인할 수 있어요.</div>
+        <div class="connect-chips">
+          <span class="connect-chip">여신금융협회</span>
+          <span class="connect-chip">배달의민족</span>
+          <span class="connect-chip">쿠팡이츠</span>
+        </div>
+      </div>
       <div class="stl-top">
         <div class="stl-box in"><div class="k">오늘 입금액</div><div class="v">4,708,230원</div><div class="when">카드사 3곳 + 배민 정산 예정</div></div>
         <div class="stl-box pend"><div class="k">이번 주 확정 입금</div><div class="v">7,547,020원</div><div class="when">정산일 확정 대기분 포함</div></div>
@@ -663,8 +708,56 @@
   </div>
   <div class="freshness">데이터 신선도 — POS <b>2시간 전</b> · 동종업 집계 <b>2시간 전</b> · 예측 갱신 <b>2시간 전</b> · 입금 정보 <b>오늘 06:00</b></div>
 </div>
+<div class="connect-modal" id="connectModal" aria-hidden="true">
+  <div class="connect-panel" role="dialog" aria-modal="true" aria-labelledby="connectTitle">
+    <div class="connect-head">
+      <div>
+        <h2 id="connectTitle">정산 계정 연동</h2>
+        <p>카드 입금 예정액은 여신금융협회, 배달 정산액은 배달앱 계정 연동 후 확인합니다.</p>
+      </div>
+      <button class="modal-close" type="button" data-close-connect aria-label="닫기">×</button>
+    </div>
+    <div class="provider-list">
+      <div class="provider-card">
+        <div class="provider-top"><span class="provider-name">여신금융협회</span><span class="provider-tag">카드 정산</span></div>
+        <div class="provider-field"><label for="yc-id">아이디</label><input id="yc-id" type="text" autocomplete="username" placeholder="여신협회 아이디"></div>
+        <div class="provider-field"><label for="yc-pw">패스워드</label><input id="yc-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
+        <div class="provider-help">카드사별 매출, 수수료, 입금 예정일을 확인하는 데 사용됩니다.</div>
+      </div>
+      <div class="provider-card">
+        <div class="provider-top"><span class="provider-name">배달의민족</span><span class="provider-tag">배달 정산</span></div>
+        <div class="provider-field"><label for="baemin-id">아이디</label><input id="baemin-id" type="text" autocomplete="username" placeholder="배민 사장님광장 아이디"></div>
+        <div class="provider-field"><label for="baemin-pw">패스워드</label><input id="baemin-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
+        <div class="provider-help">배민 주문액, 수수료, 정산 예정액을 함께 반영합니다.</div>
+      </div>
+      <div class="provider-card">
+        <div class="provider-top"><span class="provider-name">쿠팡이츠</span><span class="provider-tag">배달 정산</span></div>
+        <div class="provider-field"><label for="coupang-id">아이디</label><input id="coupang-id" type="text" autocomplete="username" placeholder="쿠팡이츠 스토어 아이디"></div>
+        <div class="provider-field"><label for="coupang-pw">패스워드</label><input id="coupang-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
+        <div class="provider-help">쿠팡이츠 주문액, 수수료, 정산 예정액을 함께 반영합니다.</div>
+      </div>
+    </div>
+    <div class="modal-note">프로토타입 화면입니다. 실제 서비스에서는 아이디와 패스워드를 프론트에 저장하지 않고, 서버에서 암호화와 권한 처리를 거쳐 안전하게 연동해야 합니다.</div>
+    <div class="modal-actions">
+      <button class="connect-btn secondary" type="button" data-close-connect>취소</button>
+      <button class="connect-btn" type="button" id="connectSubmit">연동 요청</button>
+    </div>
+  </div>
+</div>
 <script>
   const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const connectModal=document.getElementById('connectModal');
+  const openConnect=()=>{connectModal.classList.add('is-open');connectModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';connectModal.querySelector('input')?.focus();};
+  const closeConnect=()=>{connectModal.classList.remove('is-open');connectModal.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+  document.querySelectorAll('[data-open-connect]').forEach(btn=>btn.addEventListener('click',openConnect));
+  document.querySelectorAll('[data-close-connect]').forEach(btn=>btn.addEventListener('click',closeConnect));
+  connectModal.addEventListener('click',e=>{if(e.target===connectModal)closeConnect();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&connectModal.classList.contains('is-open'))closeConnect();});
+  document.getElementById('connectSubmit').addEventListener('click',()=>{
+    document.querySelector('.connect-copy').innerHTML='<b>연동 요청됨</b> — 여신금융협회·배달의민족·쿠팡이츠 데이터를 확인하는 중이에요.';
+    document.querySelectorAll('.connect-chip').forEach(chip=>chip.textContent=chip.textContent+' 확인중');
+    closeConnect();
+  });
   const tip=document.createElement('div');
   tip.className='chart-tip';
   document.body.appendChild(tip);
