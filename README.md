@@ -11,14 +11,12 @@
 │   ├── cto-api-design-handoff.md
 │   ├── oq-owner-dashboard-api-feasibility-check.md
 │   └── oq-owner-dashboard-handoff.md
-├── .github/workflows/deploy-pages.yml
 ├── vercel.json
 └── README.md
 ```
 
 - `index.html`: 현재 최신 배포본
 - `docs/`: CTO/API/디자인 핸드오프 문서
-- `.github/workflows/deploy-pages.yml`: GitHub Pages 자동 배포
 - `vercel.json`: Vercel 정적 사이트 배포 설정
 
 ## 로컬 확인
@@ -31,16 +29,12 @@ python3 -m http.server 3000
 
 브라우저에서 `http://localhost:3000`을 엽니다.
 
-## GitHub Pages 배포
-
-1. 이 폴더를 GitHub 저장소에 push합니다.
-2. 저장소의 `Settings > Pages`에서 Source를 `GitHub Actions`로 선택합니다.
-3. `main` 브랜치에 push하면 워크플로가 루트의 정적 파일을 배포합니다.
-
 ## Vercel 배포
 
 Vercel에서 GitHub 저장소를 연결하고 Framework Preset을 `Other`로 선택합니다.
 빌드 명령과 출력 디렉터리는 비워 둡니다. 저장소 루트의 `index.html`이 배포됩니다.
+
+배포 URL: https://oq-owner-dashboard-prototype.vercel.app
 
 ## 이전 위치
 
@@ -51,4 +45,3 @@ Vercel에서 GitHub 저장소를 연결하고 Framework Preset을 `Other`로 선
 ```
 
 이전일: 2026-06-11
-
