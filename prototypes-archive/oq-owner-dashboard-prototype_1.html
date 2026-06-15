@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OQ 사장님 대시보드 — 프로토타입</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#ffffff;--ink:#1c1d22;--ink-2:#5a5d68;--ink-3:#9499a4;
+    --line:#ebecf0;--line-2:#e0e2e8;--brand:#ff5a36;--brand-soft:#fff1ec;--brand-ink:#d8431f;
+    --good:#1f9d72;--good-soft:#e9f7f1;--warn:#c98a00;--warn-soft:#fdf6e6;
+    --blue:#4b6bf5;--blue-soft:#eef1fe;--ai:#10121a;--ai-soft:#f3f4fb;
+    --radius:18px;--shadow:0 1px 2px rgba(20,22,30,.04),0 8px 24px rgba(20,22,30,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;background:var(--bg);
+    color:var(--ink);line-height:1.5;letter-spacing:-.01em;padding-bottom:64px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;z-index:50;background:rgba(244,245,247,.82);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+  .head-inner{max-width:1040px;margin:0 auto;padding:16px 20px;display:flex;align-items:center;gap:14px}
+  .logo{width:44px;height:44px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,#ff7a52,#ff4a22);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 6px 16px rgba(255,74,34,.32)}
+  .head-txt h1{font-size:17px;font-weight:800}
+  .head-txt p{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-top:1px}
+  .live{margin-left:auto;display:flex;align-items:center;gap:7px;background:var(--brand-soft);color:var(--brand-ink);
+    font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--brand);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,90,54,.45)}70%{box-shadow:0 0 0 7px rgba(255,90,54,0)}100%{box-shadow:0 0 0 0 rgba(255,90,54,0)}}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);
+    opacity:0;transform:translateY(12px);animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .span-2{grid-column:1 / -1}
+  .card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.13s}
+  .card:nth-child(4){animation-delay:.18s}.card:nth-child(5){animation-delay:.23s}.card:nth-child(6){animation-delay:.28s}
+  .card:nth-child(7){animation-delay:.33s}.card:nth-child(8){animation-delay:.38s}.card:nth-child(9){animation-delay:.43s}
+  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:10px}
+  .card-title{font-size:15px;font-weight:800;letter-spacing:-.01em}
+  .card-sub{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-bottom:16px}
+  .stamp{font-size:11px;color:var(--ink-3);font-weight:500;flex-shrink:0}
+  .ai-badge{display:inline-flex;align-items:center;gap:6px;background:var(--ai);color:#fff;font-size:11px;font-weight:700;
+    padding:5px 10px;border-radius:7px;letter-spacing:.02em;flex-shrink:0}
+  .ai-badge svg{width:12px;height:12px}
+  .ai-suggest{margin-top:16px;padding:13px 14px;background:var(--ai-soft);border-radius:12px;display:flex;gap:10px;align-items:flex-start}
+  .ai-suggest .txt{font-size:13px;color:var(--ink-2);font-weight:500}
+  .ai-suggest .txt b{color:var(--brand-ink);font-weight:700}
+  .hero .hello{font-size:13px;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+  .hero .big{font-size:34px;font-weight:800;letter-spacing:-.03em}
+  .hero .sub{font-size:13.5px;color:var(--ink-2);margin-top:4px;font-weight:500}
+  .hero .peer-row{display:flex;align-items:center;gap:9px;margin-top:16px;flex-wrap:wrap}
+  .pill{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:8px}
+  .pill.up{background:var(--good-soft);color:var(--good)}
+  .pill-note{font-size:12px;color:var(--ink-3);font-weight:500}
+  .ai-card{grid-column:1/-1;background:radial-gradient(120% 140% at 100% 0%,rgba(255,90,54,.07),transparent 55%),var(--card);
+    border:1px solid var(--line);position:relative;overflow:hidden}
+  .ai-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--brand),#ff8a66)}
+  .ai-headline{font-size:21px;font-weight:800;margin:14px 0 6px;letter-spacing:-.02em}
+  .ai-conclusion{font-size:14px;color:var(--ink-2);font-weight:500;max-width:62ch}
+  .ai-body{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:20px;align-items:center}
+  .chart{display:flex;align-items:flex-end;gap:7px;height:128px;padding-top:8px}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%}
+  .bar-track{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
+  .bar{width:72%;max-width:26px;border-radius:5px 5px 3px 3px;background:var(--line-2);position:relative;
+    transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards}
+  @keyframes grow{to{transform:scaleY(1)}}
+  .bar.weak{background:linear-gradient(180deg,#ff7a52,var(--brand))}
+  .bar-col .hr{font-size:11px;color:var(--ink-3);font-weight:600}
+  .bar-col.is-weak .hr{color:var(--brand-ink);font-weight:800}
+  .bar .val{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:700;
+    color:var(--brand-ink);white-space:nowrap;opacity:0;animation:fadein .4s .7s forwards}
+  @keyframes fadein{to{opacity:1}}
+  .ai-evidence{display:flex;flex-direction:column;gap:14px}
+  .ev{display:flex;gap:12px;align-items:flex-start}
+  .ev-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0;background:var(--brand)}
+  .ev-dot.muted{background:var(--ink-3)}
+  .ev-txt strong{font-size:14px;font-weight:700;display:block}
+  .ev-txt span{font-size:12.5px;color:var(--ink-3);font-weight:500}
+  .fc-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .fc .big{font-size:28px;font-weight:800;letter-spacing:-.02em}
+  .fc .ci{font-size:13px;color:var(--ink-3);font-weight:700;margin-left:8px}
+  .daychip{display:inline-block;background:var(--ai-soft);color:var(--ink-2);font-size:12px;font-weight:700;padding:4px 10px;border-radius:7px;margin-top:8px}
+  .fc-method{margin-top:14px;background:var(--ai-soft);border-radius:11px;padding:11px 13px;font-size:12.5px;color:var(--ink-2);font-weight:500;display:flex;gap:9px;align-items:flex-start}
+  .fc-factors{margin-top:18px}
+  .fc-factors-head{font-size:12px;font-weight:700;color:var(--ink-3);margin-bottom:11px}
+  .factor{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .factor-name{font-size:13px;font-weight:600;width:72px;flex-shrink:0}
+  .factor-bar{flex:1;height:7px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
+  .factor-fill{position:absolute;top:0;height:100%;border-radius:99px;right:50%;width:0;animation:facfill .9s .3s cubic-bezier(.2,.8,.3,1) forwards}
+  .factor-fill.down{background:var(--blue)}
+  @keyframes facfill{to{width:var(--w)}}
+  .factor-val{font-size:12.5px;font-weight:700;width:42px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .factor-val.down{color:var(--blue)}
+  .factor-empty{font-size:12px;color:var(--ink-3);font-weight:500;line-height:1.5;background:var(--bg);border-radius:9px;padding:10px 12px;margin-top:6px}
+  .fc-right{display:flex;flex-direction:column;border-left:1px solid var(--line);padding-left:30px}
+  .fc-right-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+  .fc-right-head>span:first-child{font-size:13px;font-weight:700;color:var(--ink-2)}
+  .fc-sum{font-size:12px;color:var(--ink-3);font-weight:700;font-variant-numeric:tabular-nums}
+  .trend{display:flex;align-items:flex-end;gap:9px;height:120px;flex:1}
+  .tcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+  .ttrack{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}
+  .tbar{width:62%;max-width:24px;border-radius:5px 5px 3px 3px;background:linear-gradient(180deg,#ffb59e,var(--brand));
+    transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards}
+  .tbar.wk{background:linear-gradient(180deg,#ff7a52,var(--brand-ink))}
+  .tlabel{font-size:11px;color:var(--ink-3);font-weight:600;text-align:center;line-height:1.3}
+  .tlabel b{display:block;color:var(--ink-2);font-weight:700}
+  .tval{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:9.5px;font-weight:700;color:var(--ink-3);white-space:nowrap;opacity:0;animation:fadein .4s .9s forwards}
+  .trend-note{font-size:12px;color:var(--ink-3);font-weight:500;margin-top:14px}
+  .ch-bar{display:flex;height:30px;border-radius:9px;overflow:hidden;margin:4px 0 16px;background:var(--line)}
+  .ch-seg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800;min-width:0;width:0;animation:segw .9s cubic-bezier(.2,.8,.3,1) forwards}
+  @keyframes segw{to{width:var(--w)}}
+  .ch-seg.hall{background:linear-gradient(90deg,#ff7a52,var(--brand))}
+  .ch-seg.deli{background:var(--blue)}
+  .ch-seg.pick{background:#34b88a}
+  .ch-legend{display:flex;gap:18px;flex-wrap:wrap}
+  .ch-leg{display:flex;flex-direction:column;gap:3px}
+  .ch-leg .lab{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700}
+  .ch-leg .sw{width:11px;height:11px;border-radius:3px}
+  .ch-leg .amt{font-size:12px;color:var(--ink-3);font-weight:600;padding-left:18px}
+  .ch-src{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line-2);display:flex;flex-direction:column;gap:9px}
+  .ch-src-row{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--ink-2);font-weight:500}
+  .ch-src-row .ico{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;flex-shrink:0;background:var(--ai-soft);font-size:12px}
+  .ch-src-row b{font-weight:700}
+  .src-ok{color:var(--good);font-weight:700;margin-left:auto;font-size:11.5px}
+  .tm-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .tm-rank{width:20px;height:20px;border-radius:6px;background:var(--brand-soft);color:var(--brand-ink);font-size:11px;font-weight:800;display:grid;place-items:center;flex-shrink:0}
+  .tm-name{font-size:13.5px;font-weight:700;width:108px;flex-shrink:0}
+  .tm-spark{flex:1;display:flex;align-items:flex-end;gap:2px;height:34px}
+  .tm-tick{flex:1;background:var(--line-2);border-radius:2px;min-height:3px;transform-origin:bottom;transform:scaleY(0);animation:grow .6s cubic-bezier(.2,.8,.3,1) forwards}
+  .tm-tick.pk{background:var(--brand)}
+  .tm-val{font-size:12.5px;font-weight:700;color:var(--ink-2);width:58px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .tm-axis{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);font-weight:600;padding-left:140px;margin-top:-4px}
+  .peer-rank-big{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+  .peer-rank-big .num{font-size:32px;font-weight:800;letter-spacing:-.02em}
+  .peer-rank-big .of{font-size:14px;color:var(--ink-2);font-weight:600}
+  .peer-pct{font-size:13px;font-weight:700;color:var(--good);margin-bottom:16px}
+  .scale{position:relative;height:10px;border-radius:99px;margin:8px 0;background:linear-gradient(90deg,#fde8e1,#ffb59e,var(--brand))}
+  .scale .me{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--brand);transform:translate(-50%,-50%);box-shadow:0 2px 8px rgba(255,90,54,.4);left:0;animation:slide 1.1s cubic-bezier(.2,.8,.3,1) forwards}
+  @keyframes slide{to{left:var(--pos)}}
+  .scale-ends{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);font-weight:600}
+  .peer-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px}
+  .pm{background:var(--bg);border-radius:11px;padding:12px}
+  .pm .k{font-size:11px;color:var(--ink-3);font-weight:600;margin-bottom:5px}
+  .pm .v{font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .pm .d{font-size:11px;font-weight:700;margin-top:2px}
+  .pm .d.up{color:var(--good)}.pm .d.down{color:var(--blue)}
+  .peer-def{font-size:12px;color:var(--ink-3);font-weight:600;margin-top:16px;display:flex;align-items:center;gap:6px}
+  .peer-def .tagdef{background:var(--ai-soft);color:var(--ink-2);padding:3px 8px;border-radius:6px;font-weight:700}
+  .comp-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:20px}
+  .map{position:relative;height:230px;border-radius:13px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(115deg,rgba(255,90,54,.04),transparent),
+      repeating-linear-gradient(0deg,#eef0f3,#eef0f3 1px,transparent 1px,transparent 26px),
+      repeating-linear-gradient(90deg,#eef0f3,#eef0f3 1px,transparent 1px,transparent 26px),#f7f8fa}
+  .road{position:absolute;background:#e2e5ea}
+  .road.h{height:9px;left:0;right:0}.road.v{width:9px;top:0;bottom:0}
+  .radius-ring{position:absolute;left:50%;top:50%;width:170px;height:170px;transform:translate(-50%,-50%);border:1.5px dashed rgba(255,90,54,.5);border-radius:50%;background:rgba(255,90,54,.05)}
+  .node{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.18);transform:translate(-50%,-50%)}
+  .node.me{width:20px;height:20px;background:var(--ai);z-index:3}
+  .node.me::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(255,90,54,.45);animation:ring 2.4s infinite}
+  @keyframes ring{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.7);opacity:0}}
+  .me-tag{position:absolute;left:50%;top:calc(50% - 24px);transform:translateX(-50%);background:var(--ai);color:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;z-index:4}
+  .comp-rank{display:flex;flex-direction:column;gap:10px}
+  .comp-rank-big{text-align:center;background:var(--bg);border-radius:13px;padding:16px 10px}
+  .comp-rank-big .num{font-size:30px;font-weight:800;color:var(--brand-ink);line-height:1}
+  .comp-rank-big .lab{font-size:11.5px;color:var(--ink-2);font-weight:600;margin-top:6px}
+  .comp-list{display:flex;flex-direction:column;gap:8px}
+  .comp-item{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600}
+  .comp-item .r{width:18px;height:18px;border-radius:50%;background:var(--line);color:var(--ink-2);font-size:10px;font-weight:800;display:grid;place-items:center;flex-shrink:0}
+  .comp-item.me-row .r{background:var(--ai);color:#fff}
+  .comp-item.me-row{color:var(--brand-ink);font-weight:800}
+  .comp-item .dist{margin-left:auto;color:var(--ink-3);font-weight:600;font-size:11.5px}
+  .comp-foot{font-size:12px;color:var(--ink-3);font-weight:600;margin-top:14px}
+  .stl-top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 16px}
+  .stl-box{border-radius:13px;padding:15px;border:1px solid var(--line)}
+  .stl-box.in{background:var(--good-soft);border-color:transparent}
+  .stl-box.pend{background:var(--warn-soft);border-color:transparent}
+  .stl-box .k{font-size:11.5px;font-weight:700;color:var(--ink-2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .stl-box .v{font-size:21px;font-weight:800;letter-spacing:-.02em}
+  .stl-box.in .v{color:#15875c}.stl-box.pend .v{color:#a4730a}
+  .stl-box .when{font-size:11.5px;color:var(--ink-3);font-weight:600;margin-top:4px}
+  .stl-rows{display:flex;flex-direction:column}
+  .stl-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .stl-row:last-child{border-bottom:none}
+  .stl-row .lbl{color:var(--ink-2);font-weight:600;display:flex;align-items:center;gap:7px}
+  .stl-row .amt{font-weight:700;font-variant-numeric:tabular-nums}
+  .stl-row .amt.fee{color:var(--ink-2)}
+  .feechip{background:var(--ai-soft);color:var(--ink-2);font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:5px}
+  .stl-alert{margin-top:14px;background:var(--warn-soft);border-radius:12px;padding:12px 13px;display:flex;gap:10px;align-items:flex-start}
+  .stl-alert .ico{flex-shrink:0;width:18px;height:18px}
+  .stl-alert .txt{font-size:12.5px;color:#8a6207;font-weight:500}
+  .stl-alert .txt b{font-weight:800}
+  .cardchip{font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;color:#fff}
+  .fallback{background:repeating-linear-gradient(45deg,#fafbfc,#fafbfc 10px,#f6f7f9 10px,#f6f7f9 20px);border:1px dashed var(--line-2)}
+  .fb-inner{text-align:center;padding:10px 4px}
+  .fb-icon{width:42px;height:42px;border-radius:12px;background:var(--ai-soft);display:grid;place-items:center;margin:0 auto 12px}
+  .fb-title{font-size:14.5px;font-weight:700}
+  .fb-desc{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-top:6px;max-width:34ch;margin-inline:auto}
+  .fb-progress{margin-top:16px;max-width:220px;margin-inline:auto}
+  .fb-track{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+  .fb-bar{height:100%;width:62%;background:var(--ink-3);border-radius:99px;opacity:.5}
+  .fb-count{font-size:11.5px;color:var(--ink-3);font-weight:700;margin-top:8px}
+  .freshness{margin-top:22px;text-align:center;font-size:11.5px;color:var(--ink-3);font-weight:500}
+  .freshness b{color:var(--ink-2);font-weight:700}
+  .note-banner{grid-column:1/-1;background:var(--ai-soft);border:1px solid var(--line);border-radius:14px;padding:13px 16px;font-size:12.5px;color:var(--ink-2);font-weight:500;display:flex;gap:10px;align-items:flex-start}
+  .note-banner .ai-badge{background:var(--brand)}
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr;gap:13px;margin-top:18px}
+    .span-2,.ai-card,.note-banner{grid-column:1}
+    .ai-body,.fc-grid,.comp-grid{grid-template-columns:1fr;gap:20px}
+    .fc-right{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
+    .hero .big{font-size:29px}
+    .wrap{padding:0 14px}.head-inner{padding:13px 14px}.card{padding:18px}
+    .peer-metrics{gap:7px}.pm{padding:10px}.pm .v{font-size:14px}
+    .tm-name{width:84px}.tm-axis{padding-left:116px}
+    .stl-top{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <div class="logo">OQ</div>
+    <div class="head-txt"><h1>OQ 사장님 대시보드</h1><p>6월 1일 월요일 · 맑음</p></div>
+    <div class="live"><span class="dot"></span>실시간</div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="grid">
+
+    <section class="card span-2 hero">
+      <div class="hello">안녕하세요, 사장님</div>
+      <div class="big">최근 일평균 ₩1,847,300</div>
+      <div class="sub">30일 누적 ₩55,419,000</div>
+      <div class="peer-row">
+        <span class="pill up">동네 동종업 대비 +18%</span>
+        <span class="pill-note">반경 500m · 동종업 43곳 기준</span>
+      </div>
+    </section>
+
+    <section class="card ai-card">
+      <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안 · 오늘 하나만 한다면</span>
+      <h2 class="ai-headline">23시 매출이 가장 약한 시간대예요</h2>
+      <p class="ai-conclusion">밤 시간대 손님은 꾸준한데 23시만 매출이 뚝 떨어집니다. 동네 비슷한 가게들은 이 시간에도 매출이 유지돼요 — 영업을 조금 더 끌고 갈 여지가 있습니다.</p>
+      <div class="ai-body">
+        <div>
+          <div class="chart" id="hourChart"></div>
+          <div style="font-size:11.5px;color:var(--ink-3);font-weight:600;margin-top:10px;text-align:center">시간대별 평균 매출 (최근 30일)</div>
+        </div>
+        <div class="ai-evidence">
+          <div class="ev"><span class="ev-dot"></span><div class="ev-txt"><strong>23시 매출 -37%</strong><span>동네 동종업 같은 시간대 평균 대비</span></div></div>
+          <div class="ev"><span class="ev-dot"></span><div class="ev-txt"><strong>22시 &rarr; 23시 -52% 급감</strong><span>내 매장 직전 시간 대비 낙폭</span></div></div>
+          <div class="ev"><span class="ev-dot muted"></span><div class="ev-txt"><strong>피크는 19시 (₩412,000)</strong><span>저녁 손님은 충분히 들어옴</span></div></div>
+        </div>
+      </div>
+      <div class="ai-suggest">
+        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안</span>
+        <span class="txt"><b>23시 한정 세트·라스트오더 안내</b>로 마감 직전 매출을 잡아보세요. 22시 이후 들어오는 손님이 평균 8팀 — 이들을 한 잔 더 머물게 하면 23시 매출을 메울 수 있어요.</span>
+      </div>
+    </section>
+
+    <section class="card fc span-2">
+      <div class="card-head"><span class="card-title">내일 매출 브리핑</span><span class="stamp">방금 전</span></div>
+      <div class="card-sub">내일 예상 매출과 앞으로 7일 추이를 한눈에</div>
+      <div class="fc-grid">
+        <div class="fc-left">
+          <div><span class="big">₩1,920,000</span><span class="ci">±₩384,000</span></div>
+          <div><span class="daychip">화요일 예상</span></div>
+          <div class="fc-method"><span class="ai-badge">AI</span><span>최근 4개 화요일 영업 데이터로 추정했어요. 표본이 적어 변동폭(±20%)을 넓게 잡았습니다 — 확정 매출이 아닌 참고 지표예요.</span></div>
+          <div class="fc-factors">
+            <div class="fc-factors-head">예측에 반영된 요인</div>
+            <div class="factor"><span class="factor-name">요일 패턴</span><span class="factor-bar"><span class="factor-fill down" style="--w:18%"></span></span><span class="factor-val down">-1%</span></div>
+            <div class="factor-empty">날씨·공휴일·대기질은 내일 영향이 거의 없어요 (±0%). 영향이 생기면 자동으로 표시됩니다.</div>
+          </div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-right-head"><span>앞으로 7일 예측</span><span class="fc-sum">합계 ₩29,591,000</span></div>
+          <div class="trend" id="trendChart"></div>
+          <div class="trend-note">막대를 보면 주말(토·일)에 매출이 오를 것으로 예측돼요.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card span-2">
+      <div class="card-head"><span class="card-title">채널 비중</span><span class="stamp">2시간 전</span></div>
+      <div class="card-sub">어제 매출을 홀·배달·포장으로 나눠봤어요</div>
+      <div class="ch-bar">
+        <span class="ch-seg hall" style="--w:58%">홀 58%</span>
+        <span class="ch-seg deli" style="--w:27%">배달 27%</span>
+        <span class="ch-seg pick" style="--w:15%">포장 15%</span>
+      </div>
+      <div class="ch-legend">
+        <div class="ch-leg"><span class="lab"><span class="sw" style="background:var(--brand)"></span>홀</span><span class="amt">₩1,071,000 · 92건</span></div>
+        <div class="ch-leg"><span class="lab"><span class="sw" style="background:var(--blue)"></span>배달</span><span class="amt">₩498,000 · 41건</span></div>
+        <div class="ch-leg"><span class="lab"><span class="sw" style="background:#34b88a"></span>포장</span><span class="amt">₩278,000 · 23건</span></div>
+      </div>
+      <div class="ch-src">
+        <div class="ch-src-row"><span class="ico">🧾</span><span>홀·포장은 <b>POS 영수증</b>에서 결제수단·테이블 구분으로 집계</span><span class="src-ok">연동됨</span></div>
+        <div class="ch-src-row"><span class="ico">🛵</span><span>배달은 <b>배달앱 주문 연동</b>(배민·쿠팡이츠)에서 집계</span><span class="src-ok">연동됨</span></div>
+      </div>
+      <div class="ai-suggest">
+        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안</span>
+        <span class="txt">포장 비중(15%)이 동네 평균(24%)보다 낮아요. <b>포장 전용 메뉴·픽업 할인</b>을 안내하면 홀이 붐비는 시간의 매출을 더 받을 수 있습니다.</span>
+      </div>
+    </section>
+
+    <section class="card span-2">
+      <div class="card-head"><span class="card-title">어제 톱메뉴</span><span class="stamp">2시간 전</span></div>
+      <div class="card-sub">메뉴별 매출과 시간대별 판매 흐름 (막대 = 시간당 판매량, 진한 막대 = 피크)</div>
+      <div id="topMenu"></div>
+      <div class="tm-axis"><span>11시</span><span>15시</span><span>19시</span><span>23시</span></div>
+      <div class="ai-suggest">
+        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안</span>
+        <span class="txt">소주와 쌀국수가 <b>19시에 함께 가장 많이</b> 팔려요(동시 주문 34%). 이 둘을 묶은 <b>저녁 세트</b>를 19시 전후로 노출하면 객단가를 올릴 수 있습니다.</span>
+      </div>
+    </section>
+
+    <section class="card span-2">
+      <div class="card-head"><span class="card-title">동네 동종업 중 내 순위</span><span class="stamp">2시간 전</span></div>
+      <div class="card-sub">반경 500m 안 같은 업종 가게들과 비교하면</div>
+      <div class="peer-rank-big"><span class="num">8위</span><span class="of">/ 동종업 43곳 중</span></div>
+      <div class="peer-pct">상위 19% — 동네에서 잘하는 편이에요</div>
+      <div class="scale"><span class="me" style="--pos:81%"></span></div>
+      <div class="scale-ends"><span>하위</span><span>상위</span></div>
+      <div class="peer-metrics">
+        <div class="pm"><div class="k">일평균 매출</div><div class="v">₩1.85M</div><div class="d up">동네 +18%</div></div>
+        <div class="pm"><div class="k">객단가</div><div class="v">₩18,200</div><div class="d up">동네 +6%</div></div>
+        <div class="pm"><div class="k">재방문율</div><div class="v">31%</div><div class="d down">동네 -4%</div></div>
+      </div>
+      <div class="peer-def"><span class="tagdef">비교 기준</span> 반경 500m · 동종 업종 · 최근 30일 영업 매장 43곳</div>
+    </section>
+
+    <section class="card span-2">
+      <div class="card-head"><span class="card-title">우리 동네 경쟁</span><span class="stamp">2시간 전</span></div>
+      <div class="card-sub">반경 500m 안 동종업 43곳 · SEMAS 공인 상권 기준</div>
+      <div class="comp-grid">
+        <div class="map" id="compMap">
+          <div class="road h" style="top:46%"></div>
+          <div class="road v" style="left:52%"></div>
+          <div class="radius-ring"></div>
+          <div class="me-tag">우리 가게 · 8위</div>
+          <div class="node me" style="left:50%;top:50%"></div>
+        </div>
+        <div class="comp-rank">
+          <div class="comp-rank-big"><div class="num">8위</div><div class="lab">43곳 중 매출 순위</div></div>
+          <div class="comp-list">
+            <div class="comp-item"><span class="r">6</span>오봉집(발산본점)<span class="dist">120m</span></div>
+            <div class="comp-item"><span class="r">7</span>철길부산집<span class="dist">80m</span></div>
+            <div class="comp-item me-row"><span class="r">8</span>우리 가게<span class="dist">—</span></div>
+            <div class="comp-item"><span class="r">9</span>단풍<span class="dist">90m</span></div>
+            <div class="comp-item"><span class="r">10</span>포퀸스<span class="dist">140m</span></div>
+          </div>
+          <div class="comp-foot">바로 위 2곳과 매출 차이는 일평균 ₩21만</div>
+        </div>
+      </div>
+      <div class="ai-suggest">
+        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안</span>
+        <span class="txt">바로 위 7위 가게와 일평균 차이가 <b>₩21만</b>으로 작아요. 약점인 <b>23시 매출</b>만 메우면 순위를 올릴 여지가 충분합니다.</span>
+      </div>
+    </section>
+
+    <section class="card span-2">
+      <div class="card-head"><span class="card-title">카드 결제 · 입금 예정</span><span class="stamp">오늘 06:00 기준</span></div>
+      <div class="card-sub">카드사별 결제액과 실제 입금 예정일·수수료를 모아봤어요 (더미 데이터)</div>
+      <div class="stl-top">
+        <div class="stl-box in"><div class="k">💰 오늘 입금 예정</div><div class="v">₩2,184,500</div><div class="when">5/29(금) 결제분 · 영업일 +2일</div></div>
+        <div class="stl-box pend"><div class="k">⏳ 입금 대기 중</div><div class="v">₩4,931,200</div><div class="when">5/30~5/31 결제분 · 6/2~6/3 입금 예정</div></div>
+      </div>
+      <div class="stl-rows">
+        <div class="stl-row"><span class="lbl"><span class="cardchip" style="background:#2b6cf0">신한</span>신한카드</span><span class="amt">결제 ₩1,920,000</span></div>
+        <div class="stl-row"><span class="lbl"><span class="feechip">수수료 0.50%</span>입금 예정</span><span class="amt fee">₩1,910,400 <span style="color:var(--ink-3);font-weight:600">(−₩9,600)</span></span></div>
+        <div class="stl-row"><span class="lbl"><span class="cardchip" style="background:#e8401f">KB국민</span>KB국민카드</span><span class="amt">결제 ₩1,340,000</span></div>
+        <div class="stl-row"><span class="lbl"><span class="feechip">수수료 0.85%</span>입금 예정</span><span class="amt fee">₩1,328,610 <span style="color:var(--ink-3);font-weight:600">(−₩11,390)</span></span></div>
+        <div class="stl-row"><span class="lbl"><span class="cardchip" style="background:#00857a">삼성</span>삼성카드</span><span class="amt">결제 ₩980,000</span></div>
+        <div class="stl-row"><span class="lbl"><span class="feechip">수수료 1.10%</span>입금 예정</span><span class="amt fee">₩969,220 <span style="color:var(--ink-3);font-weight:600">(−₩10,780)</span></span></div>
+      </div>
+      <div class="stl-alert">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c98a00" stroke-width="2.2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span class="txt"><b>입금 누락 의심 1건</b> — 5/27(수) 결제된 현대카드 ₩214,000이 예정일(5/29)에 입금되지 않았어요. 카드사에 확인이 필요합니다.</span>
+      </div>
+      <div class="ai-suggest">
+        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 제안</span>
+        <span class="txt">카드사별 수수료가 <b>0.50%~1.10%</b>로 차이나요. 결제 비중이 큰 삼성카드(1.10%)는 영세·중소가맹점 우대 수수료 적용 대상인지 확인하면 수수료를 낮출 수 있습니다.</span>
+      </div>
+    </section>
+
+    <section class="card fallback span-2">
+      <div class="card-head"><span class="card-title">동네 동종업 가격대 분포</span><span class="stamp">대기 중</span></div>
+      <div class="fb-inner">
+        <div class="fb-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9499a4" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div class="fb-title">아직 표본을 모으는 중이에요</div>
+        <div class="fb-desc">동네 같은 가격대 매장이 충분히 모이면 비교 결과를 보여드릴게요. 숫자가 흔들리지 않을 때까지 기다리는 중입니다.</div>
+        <div class="fb-progress"><div class="fb-track"><div class="fb-bar"></div></div><div class="fb-count">동종 가격대 표본 31 / 50곳</div></div>
+      </div>
+    </section>
+
+    <div class="note-banner">
+      <span class="ai-badge">설계 노트</span>
+      <span>모든 카드를 <b>같은 규격</b>으로 통일했어요 — ① 제안은 "AI 제안" 배지로 통일 ② 클릭해서 넘어가는 링크 제거(근거·데이터를 카드 안에 전부 노출) ③ 표본·신뢰도 미달 시 숫자 대신 상태로 폴백. 카드 결제·입금 카드는 더미이며, 실제 연동 전 보안·법적 검토가 필요한 항목입니다.</span>
+    </div>
+  </div>
+  <div class="freshness">데이터 신선도 — POS <b>2시간 전</b> · 동종업 집계 <b>2시간 전</b> · 예측 갱신 <b>2시간 전</b> · 입금 정보 <b>오늘 06:00</b></div>
+</div>
+<script>
+  const days=[{d:'7/1',w:'수',v:3208836},{d:'7/2',w:'목',v:3296160},{d:'7/3',w:'금',v:4487750},{d:'7/4',w:'토',v:5423197,pk:true},{d:'7/5',w:'일',v:5579173,pk:true},{d:'7/6',w:'월',v:3333972},{d:'7/7',w:'화',v:4262768}];
+  const maxV=Math.max(...days.map(d=>d.v));const trend=document.getElementById('trendChart');
+  days.forEach((d,i)=>{const col=document.createElement('div');col.className='tcol';const track=document.createElement('div');track.className='ttrack';
+    const bar=document.createElement('div');bar.className='tbar'+(d.pk?' wk':'');bar.style.height=Math.round(d.v/maxV*100)+'%';bar.style.animationDelay=(0.4+i*0.06)+'s';
+    const val=document.createElement('span');val.className='tval';val.textContent='₩'+(d.v/10000).toFixed(0)+'만';bar.appendChild(val);track.appendChild(bar);
+    const lab=document.createElement('div');lab.className='tlabel';lab.innerHTML=d.d+'<b>'+d.w+'</b>';col.appendChild(track);col.appendChild(lab);trend.appendChild(col);});
+  const hours=[{h:'17',v:38},{h:'18',v:62},{h:'19',v:100},{h:'20',v:74},{h:'21',v:58},{h:'22',v:46},{h:'23',v:22,weak:true},{h:'24',v:12}];
+  const chart=document.getElementById('hourChart');
+  hours.forEach((d,i)=>{const col=document.createElement('div');col.className='bar-col'+(d.weak?' is-weak':'');const track=document.createElement('div');track.className='bar-track';
+    const bar=document.createElement('div');bar.className='bar'+(d.weak?' weak':'');bar.style.height=d.v+'%';bar.style.animationDelay=(0.5+i*0.05)+'s';
+    if(d.weak){const v=document.createElement('span');v.className='val';v.textContent='-37%';bar.appendChild(v);}track.appendChild(bar);
+    const hr=document.createElement('div');hr.className='hr';hr.textContent=d.h;col.appendChild(track);col.appendChild(hr);chart.appendChild(col);});
+  const menus=[{n:'소주',val:'₩340k',peak:8,data:[1,1,2,2,3,4,5,7,9,8,6,4,2]},{n:'소고기 쌀국수',val:'₩243k',peak:8,data:[2,3,4,3,3,4,5,6,7,5,3,2,1]},{n:'맥주',val:'₩133k',peak:10,data:[0,1,1,1,2,2,3,4,5,6,7,5,3]}];
+  const tm=document.getElementById('topMenu');
+  menus.forEach((m,mi)=>{const row=document.createElement('div');row.className='tm-row';
+    row.innerHTML='<span class="tm-rank">'+(mi+1)+'</span><span class="tm-name">'+m.n+'</span>';
+    const spark=document.createElement('div');spark.className='tm-spark';const mx=Math.max(...m.data);
+    m.data.forEach((v,i)=>{const t=document.createElement('span');t.className='tm-tick'+(i===m.peak?' pk':'');t.style.height=Math.max(8,Math.round(v/mx*100))+'%';t.style.animationDelay=(0.3+mi*0.1+i*0.02)+'s';spark.appendChild(t);});
+    row.appendChild(spark);const val=document.createElement('span');val.className='tm-val';val.textContent=m.val;row.appendChild(val);tm.appendChild(row);});
+  const map=document.getElementById('compMap');
+  const pts=[[34,30],[42,22],[60,26],[68,38],[38,62],[62,64],[30,46],[70,52],[46,72],[55,40],[40,40],[64,46]];
+  pts.forEach((p,i)=>{const n=document.createElement('div');n.className='node';n.style.left=p[0]+'%';n.style.top=p[1]+'%';n.style.animationDelay=(0.3+i*0.03)+'s';map.appendChild(n);});
+</script>
+</body>
+</html>

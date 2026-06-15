@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OQ 사장님 대시보드 — 프로토타입</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --ink:#1c1d22;
+    --ink-2:#5a5d68;
+    --ink-3:#9499a4;
+    --line:#ebecf0;
+    --line-2:#e0e2e8;
+    --brand:#ff5a36;
+    --brand-soft:#fff1ec;
+    --brand-ink:#d8431f;
+    --good:#1f9d72;
+    --good-soft:#e9f7f1;
+    --warn:#c98a00;
+    --warn-soft:#fdf6e6;
+    --ai:#10121a;
+    --ai-soft:#f3f4fb;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(20,22,30,.04), 0 8px 24px rgba(20,22,30,.05);
+    --shadow-lift:0 2px 6px rgba(20,22,30,.06), 0 18px 48px rgba(255,90,54,.12);
+    --mono:"SF Mono",ui-monospace,"Menlo",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.5;
+    letter-spacing:-.01em;
+    padding-bottom:64px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,245,247,.82);
+    backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .head-inner{
+    max-width:1040px;margin:0 auto;padding:16px 20px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .logo{
+    width:44px;height:44px;border-radius:13px;flex-shrink:0;
+    background:linear-gradient(135deg,#ff7a52,#ff4a22);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;
+    box-shadow:0 6px 16px rgba(255,74,34,.32);letter-spacing:0;
+  }
+  .head-txt h1{font-size:17px;font-weight:800}
+  .head-txt p{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-top:1px}
+  .live{
+    margin-left:auto;display:flex;align-items:center;gap:7px;
+    background:var(--brand-soft);color:var(--brand-ink);
+    font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;
+  }
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--brand);
+    box-shadow:0 0 0 0 rgba(255,90,54,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,90,54,.45)}70%{box-shadow:0 0 0 7px rgba(255,90,54,0)}100%{box-shadow:0 0 0 0 rgba(255,90,54,0)}}
+
+  /* ---------- Layout ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);
+    opacity:0;transform:translateY(12px);
+    animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes rise{to{opacity:1;transform:none}}
+  .span-2{grid-column:1 / -1}
+  .card:nth-child(1){animation-delay:.04s}
+  .card:nth-child(2){animation-delay:.10s}
+  .card:nth-child(3){animation-delay:.16s}
+  .card:nth-child(4){animation-delay:.22s}
+  .card:nth-child(5){animation-delay:.28s}
+  .card:nth-child(6){animation-delay:.34s}
+  .card:nth-child(7){animation-delay:.40s}
+
+  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .card-title{font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:.01em}
+  .stamp{font-size:11px;color:var(--ink-3);font-weight:500}
+
+  /* ---------- Hero ---------- */
+  .hero .hello{font-size:13px;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+  .hero .big{font-size:34px;font-weight:800;letter-spacing:-.03em}
+  .hero .sub{font-size:13.5px;color:var(--ink-2);margin-top:4px;font-weight:500}
+  .hero .peer-row{display:flex;align-items:center;gap:9px;margin-top:16px;flex-wrap:wrap}
+  .pill{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:8px}
+  .pill.up{background:var(--good-soft);color:var(--good)}
+  .pill.flat{background:var(--ai-soft);color:var(--ink-2)}
+  .pill-note{font-size:12px;color:var(--ink-3);font-weight:500}
+
+  /* ---------- AI Card (the star) ---------- */
+  .ai-card{
+    grid-column:1 / -1;
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(255,90,54,.07), transparent 55%),
+      var(--card);
+    border:1px solid var(--line);position:relative;overflow:hidden;
+  }
+  .ai-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--brand),#ff8a66);
+  }
+  .ai-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--ai);color:#fff;font-size:11px;font-weight:700;
+    padding:5px 10px;border-radius:7px;letter-spacing:.02em;
+  }
+  .ai-tag .spark{width:12px;height:12px}
+  .ai-headline{font-size:21px;font-weight:800;margin:14px 0 6px;letter-spacing:-.02em}
+  .ai-conclusion{font-size:14px;color:var(--ink-2);font-weight:500;max-width:62ch}
+  .ai-body{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:20px;align-items:center}
+
+  /* mini bar chart */
+  .chart{display:flex;align-items:flex-end;gap:7px;height:128px;padding-top:8px}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%}
+  .bar-track{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
+  .bar{
+    width:72%;max-width:26px;border-radius:5px 5px 3px 3px;
+    background:var(--line-2);position:relative;
+    transform-origin:bottom;transform:scaleY(0);
+    animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes grow{to{transform:scaleY(1)}}
+  .bar.weak{background:linear-gradient(180deg,#ff7a52,var(--brand))}
+  .bar-col .hr{font-size:11px;color:var(--ink-3);font-weight:600}
+  .bar-col.is-weak .hr{color:var(--brand-ink);font-weight:800}
+  .bar .val{
+    position:absolute;top:-19px;left:50%;transform:translateX(-50%);
+    font-size:10.5px;font-weight:700;color:var(--brand-ink);white-space:nowrap;
+    opacity:0;animation:fadein .4s .7s forwards;
+  }
+  @keyframes fadein{to{opacity:1}}
+
+  .ai-evidence{display:flex;flex-direction:column;gap:14px}
+  .ev{display:flex;gap:12px;align-items:flex-start}
+  .ev-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0;background:var(--brand)}
+  .ev-dot.muted{background:var(--ink-3)}
+  .ev-txt strong{font-size:14px;font-weight:700;display:block}
+  .ev-txt span{font-size:12.5px;color:var(--ink-3);font-weight:500}
+  .ai-foot{
+    margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .ai-action{font-size:13.5px;font-weight:600;color:var(--ink)}
+  .ai-action b{color:var(--brand-ink)}
+  .link{color:var(--brand-ink);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}
+  .link:hover{text-decoration:underline}
+
+  /* ---------- Forecast (expanded inline) ---------- */
+  .mini-tag{font-size:10px;font-weight:800;color:#fff;background:var(--ai);padding:3px 6px;border-radius:5px;flex-shrink:0;letter-spacing:.03em}
+  .fc-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .fc-left{display:flex;flex-direction:column}
+  .fc .big{font-size:28px;font-weight:800;letter-spacing:-.02em}
+  .fc .ci{font-size:13px;color:var(--ink-3);font-weight:700;margin-left:8px}
+  .daychip{display:inline-block;background:var(--ai-soft);color:var(--ink-2);
+    font-size:12px;font-weight:700;padding:4px 10px;border-radius:7px;margin-top:8px}
+  .fc-method{
+    margin-top:14px;background:var(--ai-soft);border-radius:11px;padding:11px 13px;
+    font-size:12.5px;color:var(--ink-2);font-weight:500;display:flex;gap:9px;align-items:flex-start;
+  }
+  .fc-factors{margin-top:18px}
+  .fc-factors-head{font-size:12px;font-weight:700;color:var(--ink-3);margin-bottom:11px;letter-spacing:.01em}
+  .factor{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .factor-name{font-size:13px;font-weight:600;width:72px;flex-shrink:0}
+  .factor-bar{flex:1;height:7px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
+  .factor-fill{position:absolute;top:0;height:100%;border-radius:99px;right:50%;width:0;
+    animation:facfill .9s .3s cubic-bezier(.2,.8,.3,1) forwards}
+  .factor-fill.down{background:#5b7cff}
+  .factor-fill.up{background:var(--good);left:50%;right:auto}
+  @keyframes facfill{to{width:var(--w)}}
+  .factor-val{font-size:12.5px;font-weight:700;width:42px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .factor-val.down{color:#4b6bf5}
+  .factor-val.up{color:var(--good)}
+  .factor-empty{font-size:12px;color:var(--ink-3);font-weight:500;line-height:1.5;
+    background:var(--bg);border-radius:9px;padding:10px 12px;margin-top:6px}
+
+  .fc-right{display:flex;flex-direction:column;border-left:1px solid var(--line);padding-left:30px}
+  .fc-right-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+  .fc-right-head>span:first-child{font-size:13px;font-weight:700;color:var(--ink-2)}
+  .fc-sum{font-size:12px;color:var(--ink-3);font-weight:700;font-variant-numeric:tabular-nums}
+  .trend{display:flex;align-items:flex-end;gap:9px;height:120px;flex:1}
+  .tcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+  .ttrack{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}
+  .tbar{width:62%;max-width:24px;border-radius:5px 5px 3px 3px;
+    background:linear-gradient(180deg,#ffb59e,var(--brand));
+    transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards}
+  .tbar.wk{background:linear-gradient(180deg,#ff7a52,var(--brand-ink))}
+  .tlabel{font-size:11px;color:var(--ink-3);font-weight:600;text-align:center;line-height:1.3}
+  .tlabel b{display:block;color:var(--ink-2);font-weight:700}
+  .tval{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:9.5px;
+    font-weight:700;color:var(--ink-3);white-space:nowrap;opacity:0;animation:fadein .4s .9s forwards}
+  .trend-note{font-size:12px;color:var(--ink-3);font-weight:500;margin-top:14px}
+
+  /* ---------- Menu ---------- */
+  .menu-row{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .menu-row:last-of-type{margin-bottom:0}
+  .menu-name{font-size:13.5px;font-weight:600;width:118px;flex-shrink:0}
+  .menu-bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+  .menu-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#ff7a52,var(--brand));
+    width:0;animation:fill 1s cubic-bezier(.2,.8,.3,1) forwards}
+  @keyframes fill{to{width:var(--w)}}
+  .menu-val{font-size:12.5px;font-weight:700;color:var(--ink-2);width:64px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+  .menu-foot{margin-top:15px;font-size:12px;color:var(--ink-3);font-weight:600}
+
+  /* ---------- Channel donut ---------- */
+  .donut-wrap{display:flex;align-items:center;gap:22px}
+  .donut{width:104px;height:104px;flex-shrink:0;transform:rotate(-90deg)}
+  .donut circle{fill:none;stroke-width:15}
+  .donut .track{stroke:var(--line)}
+  .donut .seg{stroke:var(--brand);stroke-linecap:round;
+    stroke-dasharray:var(--dash);stroke-dashoffset:var(--off);
+    transition:stroke-dashoffset 1s ease}
+  .legend li{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;margin-bottom:10px}
+  .legend li:last-child{margin-bottom:0}
+  .sw{width:11px;height:11px;border-radius:3px}
+  .legend b{font-weight:800}
+
+  /* ---------- Peer / fallback ---------- */
+  .peer-scale{margin-top:6px}
+  .peer-headline{font-size:15px;font-weight:700}
+  .peer-headline b{color:var(--brand-ink)}
+  .scale{position:relative;height:10px;border-radius:99px;margin:16px 0 8px;
+    background:linear-gradient(90deg,#fde8e1,#ffb59e,var(--brand))}
+  .scale .me{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:3px solid var(--brand);transform:translate(-50%,-50%);
+    box-shadow:0 2px 8px rgba(255,90,54,.4);left:0;animation:slide 1.1s cubic-bezier(.2,.8,.3,1) forwards}
+  @keyframes slide{to{left:var(--pos)}}
+  .scale-ends{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);font-weight:600}
+  .peer-def{font-size:12px;color:var(--ink-3);font-weight:600;margin-top:14px;
+    display:flex;align-items:center;gap:6px}
+  .peer-def .tagdef{background:var(--ai-soft);color:var(--ink-2);padding:3px 8px;border-radius:6px;font-weight:700}
+
+  /* fallback card */
+  .fallback{background:repeating-linear-gradient(45deg,#fafbfc,#fafbfc 10px,#f6f7f9 10px,#f6f7f9 20px);
+    border:1px dashed var(--line-2)}
+  .fb-inner{text-align:center;padding:10px 4px}
+  .fb-icon{width:42px;height:42px;border-radius:12px;background:var(--ai-soft);
+    display:grid;place-items:center;margin:0 auto 12px}
+  .fb-title{font-size:14.5px;font-weight:700}
+  .fb-desc{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-top:6px;max-width:34ch;margin-left:auto;margin-right:auto}
+  .fb-progress{margin-top:16px;max-width:220px;margin-left:auto;margin-right:auto}
+  .fb-track{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+  .fb-bar{height:100%;width:62%;background:var(--ink-3);border-radius:99px;opacity:.5}
+  .fb-count{font-size:11.5px;color:var(--ink-3);font-weight:700;margin-top:8px}
+
+  /* competition mini-map */
+  .map{position:relative;height:120px;background:var(--bg);border-radius:13px;
+    border:1px solid var(--line);overflow:hidden;margin-bottom:14px}
+  .node{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--brand);
+    border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+  .node.me{width:18px;height:18px;background:var(--ai);z-index:2}
+  .node.me::after{content:"";position:absolute;inset:-7px;border-radius:50%;
+    border:2px solid rgba(255,90,54,.4);animation:ring 2.4s infinite}
+  @keyframes ring{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.7);opacity:0}}
+
+  /* footer */
+  .freshness{margin-top:22px;text-align:center;font-size:11.5px;color:var(--ink-3);font-weight:500}
+  .freshness b{color:var(--ink-2);font-weight:700}
+
+  .note-banner{
+    grid-column:1/-1;background:var(--ai-soft);border:1px solid var(--line);
+    border-radius:14px;padding:13px 16px;font-size:12.5px;color:var(--ink-2);
+    font-weight:500;display:flex;gap:10px;align-items:flex-start;
+  }
+  .note-banner .mini-tag{background:var(--brand)}
+
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr;gap:13px;margin-top:18px}
+    .span-2,.ai-card,.note-banner{grid-column:1}
+    .ai-body{grid-template-columns:1fr;gap:20px}
+    .fc-grid{grid-template-columns:1fr;gap:22px}
+    .fc-right{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
+    .hero .big{font-size:29px}
+    .wrap{padding:0 14px}
+    .head-inner{padding:13px 14px}
+    .card{padding:18px}
+    .donut-wrap{gap:18px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="logo">OQ</div>
+    <div class="head-txt">
+      <h1>OQ 사장님 대시보드</h1>
+      <p>6월 1일 월요일 · 맑음</p>
+    </div>
+    <div class="live"><span class="dot"></span>실시간</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- HERO -->
+    <section class="card span-2 hero">
+      <div class="hello">안녕하세요, 사장님</div>
+      <div class="big">최근 일평균 ₩1,847,300</div>
+      <div class="sub">30일 누적 ₩55,419,000</div>
+      <div class="peer-row">
+        <span class="pill up">동네 peer 대비 +18%</span>
+        <span class="pill-note">반경 500m · 동종 47곳 기준</span>
+      </div>
+    </section>
+
+    <!-- AI CARD — the star: conclusion + evidence + mini chart -->
+    <section class="card ai-card">
+      <span class="ai-tag">
+        <svg class="spark" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>
+        AI 인사이트 · 오늘 하나만 한다면
+      </span>
+      <h2 class="ai-headline">23시 매출이 가장 약한 시간대예요</h2>
+      <p class="ai-conclusion">밤 시간대 손님은 꾸준한데 23시만 매출이 뚝 떨어집니다. 동네 비슷한 가게들은 이 시간에도 매출이 유지돼요 — 영업을 조금 더 끌고 갈 여지가 있습니다.</p>
+
+      <div class="ai-body">
+        <!-- evidence as a real chart -->
+        <div>
+          <div class="chart" id="hourChart"></div>
+          <div style="font-size:11.5px;color:var(--ink-3);font-weight:600;margin-top:10px;text-align:center">시간대별 평균 매출 (최근 30일)</div>
+        </div>
+        <!-- evidence as numbers -->
+        <div class="ai-evidence">
+          <div class="ev">
+            <span class="ev-dot"></span>
+            <div class="ev-txt"><strong>23시 매출 -37%</strong><span>동네 peer 같은 시간대 평균 대비</span></div>
+          </div>
+          <div class="ev">
+            <span class="ev-dot"></span>
+            <div class="ev-txt"><strong>22시 → 23시 -52% 급감</strong><span>내 매장 직전 시간 대비 낙폭</span></div>
+          </div>
+          <div class="ev">
+            <span class="ev-dot muted"></span>
+            <div class="ev-txt"><strong>피크는 19시 (₩412,000)</strong><span>저녁 손님은 충분히 들어옴</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-foot">
+        <div class="ai-action">제안 &nbsp;·&nbsp; <b>23시 한정 세트·라스트오더 안내</b>로 마감 직전 매출을 잡아보세요</div>
+        <a class="link" href="#">근거·실행 체크리스트 ›</a>
+      </div>
+    </section>
+
+    <!-- FORECAST — expanded inline (no click-through): summary + factors + 7-day trend -->
+    <section class="card fc span-2">
+      <div class="card-head">
+        <span class="card-title">내일 매출 브리핑</span>
+        <span class="stamp">방금 전</span>
+      </div>
+
+      <div class="fc-grid">
+        <!-- left: headline + factors -->
+        <div class="fc-left">
+          <div class="fc-headline">
+            <span class="big">₩1,920,000</span><span class="ci">±₩384,000</span>
+          </div>
+          <div class="when"><span class="daychip">화요일 예상</span></div>
+          <div class="fc-method">
+            <span class="mini-tag">AI</span>
+            <span>최근 4개 화요일 영업 데이터로 추정했어요. 표본이 적어 변동폭(±20%)을 넓게 잡았습니다 — 확정 매출이 아닌 참고 지표예요.</span>
+          </div>
+
+          <div class="fc-factors">
+            <div class="fc-factors-head">예측에 반영된 요인</div>
+            <!-- only factors WITH a signal are shown; flat ones collapse into the note below -->
+            <div class="factor">
+              <span class="factor-name">요일 패턴</span>
+              <span class="factor-bar"><span class="factor-fill down" style="--w:18%"></span></span>
+              <span class="factor-val down">-1%</span>
+            </div>
+            <div class="factor-empty">
+              날씨·공휴일·대기질은 내일 영향이 거의 없어요 (±0%). 영향이 생기면 자동으로 표시됩니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- right: 7-day forecast trend, inline -->
+        <div class="fc-right">
+          <div class="fc-right-head">
+            <span>앞으로 7일 예측</span>
+            <span class="fc-sum">합계 ₩29,591,000</span>
+          </div>
+          <div class="trend" id="trendChart"></div>
+          <div class="trend-note">막대를 보면 주말(토·일)에 매출이 오를 것으로 예측돼요.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHANNEL -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-title">채널 비중</span>
+        <span class="stamp">2시간 전</span>
+      </div>
+      <div class="donut-wrap">
+        <svg class="donut" viewBox="0 0 120 120">
+          <circle class="track" cx="60" cy="60" r="46"/>
+          <circle class="seg" cx="60" cy="60" r="46" style="--dash:289;--off:202"/>
+        </svg>
+        <ul class="legend">
+          <li><span class="sw" style="background:var(--brand)"></span>홀 <b>70%</b></li>
+          <li><span class="sw" style="background:var(--line-2)"></span>배달 <b>30%</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOP MENU -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-title">어제 톱메뉴</span>
+        <span class="stamp">2시간 전</span>
+      </div>
+      <div class="menu-row">
+        <span class="menu-name">소주</span>
+        <span class="menu-bar"><span class="menu-fill" style="--w:100%"></span></span>
+        <span class="menu-val">₩340k</span>
+      </div>
+      <div class="menu-row">
+        <span class="menu-name">소고기 쌀국수</span>
+        <span class="menu-bar"><span class="menu-fill" style="--w:71%"></span></span>
+        <span class="menu-val">₩243k</span>
+      </div>
+      <div class="menu-row">
+        <span class="menu-name">맥주</span>
+        <span class="menu-bar"><span class="menu-fill" style="--w:39%"></span></span>
+        <span class="menu-val">₩133k</span>
+      </div>
+      <div class="menu-foot">피크 19시 · 함께 잘 팔린 조합: 소주 + 쌀국수 (34%)</div>
+    </section>
+
+    <!-- PEER COMPARE (unified definition) -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-title">PEER 비교</span>
+        <span class="stamp">2시간 전</span>
+      </div>
+      <div class="peer-headline">동종 47곳 중 <b>상위 19%</b></div>
+      <div class="scale"><span class="me" style="--pos:81%"></span></div>
+      <div class="scale-ends"><span>하위</span><span>상위</span></div>
+      <div class="peer-def"><span class="tagdef">peer 정의</span> 반경 500m · 동종 업종 · 최근 30일 영업 매장 47곳</div>
+    </section>
+
+    <!-- COMPETITION (real definition, matched count) -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-title">우리 동네 경쟁</span>
+        <span class="stamp">2시간 전</span>
+      </div>
+      <div class="map">
+        <span class="node" style="left:24%;top:32%"></span>
+        <span class="node" style="left:38%;top:64%"></span>
+        <span class="node me" style="left:50%;top:48%"></span>
+        <span class="node" style="left:64%;top:30%"></span>
+        <span class="node" style="left:72%;top:62%"></span>
+        <span class="node" style="left:33%;top:40%"></span>
+      </div>
+      <div class="menu-foot">반경 500m · 동종 47곳 · SEMAS 공인 상권 기준</div>
+      <div style="margin-top:13px"><a class="link" href="#">경쟁 자세히 보기 ›</a></div>
+    </section>
+
+    <!-- FALLBACK example (sample insufficient) -->
+    <section class="card fallback">
+      <div class="card-head">
+        <span class="card-title">가격대 분석</span>
+        <span class="stamp">대기 중</span>
+      </div>
+      <div class="fb-inner">
+        <div class="fb-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9499a4" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div class="fb-title">아직 표본을 모으는 중이에요</div>
+        <div class="fb-desc">동네 같은 가격대 매장이 충분히 모이면 비교 결과를 보여드릴게요. 숫자가 흔들리지 않을 때까지 기다리는 중입니다.</div>
+        <div class="fb-progress">
+          <div class="fb-track"><div class="fb-bar"></div></div>
+          <div class="fb-count">동종 가격대 표본 31 / 50곳</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- design note banner (for the team, not end-users) -->
+    <div class="note-banner">
+      <span class="mini-tag">설계 노트</span>
+      <span>이 프로토타입은 <b>3가지 원칙</b>을 보여줍니다 — ① AI 카드는 결론+근거 수치+미니차트로 "왜"가 보이게 ② peer 정의를 "반경 500m·동종 47곳"으로 모든 카드에서 통일 ③ 표본·신뢰도 미달 시 숫자 대신 상태로 폴백(가격대 분석 카드). 수치는 이상치를 제거한 더미 데이터입니다.</span>
+    </div>
+
+  </div>
+
+  <div class="freshness">
+    데이터 신선도 — POS <b>2시간 전</b> · Peer 집계 <b>2시간 전</b> · 예측 갱신 <b>2시간 전</b>
+  </div>
+</div>
+
+<script>
+  // 7-day forecast trend — inline evidence for the forecast card
+  const days = [
+    {d:'7/1',w:'수',v:3208836},{d:'7/2',w:'목',v:3296160},{d:'7/3',w:'금',v:4487750},
+    {d:'7/4',w:'토',v:5423197,pk:true},{d:'7/5',w:'일',v:5579173,pk:true},
+    {d:'7/6',w:'월',v:3333972},{d:'7/7',w:'화',v:4262768}
+  ];
+  const maxV = Math.max(...days.map(d=>d.v));
+  const trend = document.getElementById('trendChart');
+  days.forEach((d,i)=>{
+    const col=document.createElement('div');col.className='tcol';
+    const track=document.createElement('div');track.className='ttrack';
+    const bar=document.createElement('div');
+    bar.className='tbar'+(d.pk?' wk':'');
+    bar.style.height=Math.round(d.v/maxV*100)+'%';
+    bar.style.animationDelay=(0.4+i*0.06)+'s';
+    const val=document.createElement('span');val.className='tval';
+    val.textContent='₩'+(d.v/10000).toFixed(0)+'만';bar.appendChild(val);
+    track.appendChild(bar);
+    const lab=document.createElement('div');lab.className='tlabel';
+    lab.innerHTML=d.d+'<b>'+d.w+'</b>';
+    col.appendChild(track);col.appendChild(lab);
+    trend.appendChild(col);
+  });
+
+  const hours = [
+    {h:'17',v:38},{h:'18',v:62},{h:'19',v:100},{h:'20',v:74},
+    {h:'21',v:58},{h:'22',v:46},{h:'23',v:22,weak:true},{h:'24',v:12}
+  ];
+  const chart = document.getElementById('hourChart');
+  hours.forEach((d,i)=>{
+    const col=document.createElement('div');
+    col.className='bar-col'+(d.weak?' is-weak':'');
+    const track=document.createElement('div');track.className='bar-track';
+    const bar=document.createElement('div');
+    bar.className='bar'+(d.weak?' weak':'');
+    bar.style.height=d.v+'%';
+    bar.style.animationDelay=(0.5+i*0.05)+'s';
+    if(d.weak){const v=document.createElement('span');v.className='val';v.textContent='-37%';bar.appendChild(v);}
+    track.appendChild(bar);
+    const hr=document.createElement('div');hr.className='hr';hr.textContent=d.h;
+    col.appendChild(track);col.appendChild(hr);
+    chart.appendChild(col);
+  });
+</script>
+</body>
+</html>
