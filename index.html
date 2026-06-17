@@ -54,7 +54,7 @@
   @keyframes skeletonSweep{to{background-position:145% 0,0 0,0 34px,0 74px,0 136px,0 166px}}
   .span-2{grid-column:1 / -1}
   .order-hero{order:1}.order-settlement{order:2}.order-forecast{order:3}.order-menu{order:4}.order-channel{order:5}
-  .order-ai{order:6}.order-rank{order:7}.order-comp{order:8}.order-price{order:9}.order-reputation{order:10}
+  .order-ai{order:6}.order-rank{order:7}.order-comp{order:8}.order-price{order:9}.order-reputation{order:10}.order-settlement-v2{order:2}
   .card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.13s}
   .card:nth-child(4){animation-delay:.18s}.card:nth-child(5){animation-delay:.23s}.card:nth-child(6){animation-delay:.28s}
   .card:nth-child(7){animation-delay:.33s}.card:nth-child(8){animation-delay:.38s}.card:nth-child(9){animation-delay:.43s}
@@ -72,7 +72,7 @@
   .card.is-visible .stl-row:nth-child(6){animation-delay:.44s}
   @keyframes itemRise{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
   .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:10px}
-  .card-title{font-size:15px;font-weight:700;letter-spacing:-0.03em}
+  .card-title{font-size:16px;font-weight:700;letter-spacing:-0.03em}
   .card-sub{font-size:12.5px;color:var(--ink-3);font-weight:400;margin-bottom:16px}
   .card-sub.with-stamp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .card-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -361,6 +361,51 @@
   .rep-score .of{font-size:14px;color:var(--ink-3);font-weight:500}
   .rep-score .cnt{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-left:auto}
   .rep-summary{font-size:13px;color:var(--ink-2);font-weight:400;line-height:1.65;background:var(--bg);border-radius:5px;padding:12px 14px}
+  /* ===== 정산 카드 v2 (Figma 28:1434 기준, design-tokens.md) ===== */
+  .settle2{border:1px solid #2929291a;border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,.05),0 0 4px rgba(0,0,0,.04);padding:20px}
+  .settle2 .s2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .settle2 .s2-title{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:600;color:#292929;letter-spacing:-0.02em}
+  .settle2 .s2-help{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;color:#31313199;cursor:help;border:1px solid #2929291a;font-size:11px;font-weight:600;font-style:normal}
+  .settle2 .s2-stamp{font-size:13px;font-weight:400;color:#313131a3;margin-top:4px}
+  .settle2 .s2-solid{display:inline-flex;align-items:center;gap:4px;height:36px;padding:0 14px;background:#202020;color:#fff;border:0;border-radius:6px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+  .settle2 .s2-connect{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;margin-bottom:16px;flex-wrap:wrap}
+  .settle2 .s2-connect-desc{font-size:13px;font-weight:400;color:#313131a3}
+  .settle2 .s2-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .settle2 .s2-chips-label{font-size:13px;font-weight:500;color:#313131a3;margin-right:2px}
+  .settle2 .s2-chip{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;border:1px solid #2929291a;border-radius:6px;font-size:12px;font-weight:500;color:#292929;background:#fff}
+  .settle2 .s2-chip .ck{font-weight:700;color:#13af61}
+  .settle2 .s2-chip.off{color:#313131a3}
+  .settle2 .s2-chip.off .ck{color:#313131a3}
+  .settle2 .s2-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  .settle2 .s2-sum{border:1px solid #2929291a;border-radius:8px;padding:20px}
+  .settle2 .s2-sum .k{font-size:13px;font-weight:400;color:#313131a3;margin-bottom:8px}
+  .settle2 .s2-sum .v{font-size:20px;font-weight:600;letter-spacing:-0.03em;line-height:1.4;color:#212121}
+  .settle2 .s2-sum .v.blue{color:#007cff}
+  .settle2 .s2-sum .v.green{color:#13af61}
+  .settle2 .s2-sum .c{font-size:13px;font-weight:400;color:#313131a3;margin-top:8px}
+  .settle2 .s2-warn{display:flex;align-items:center;gap:8px;background:rgba(255,90,10,.06);border-radius:8px;padding:14px;margin-bottom:8px}
+  .settle2 .s2-warn .ico{flex-shrink:0}
+  .settle2 .s2-warn .t{flex:1;font-size:14px;font-weight:400;color:#292929;line-height:1.45}
+  .settle2 .s2-warn .t b{font-weight:600}
+  .settle2 .s2-warn .btn{flex-shrink:0;background:rgba(221,38,43,.1);color:#dd262b;border:0;border-radius:6px;padding:6px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .settle2 .s2-table{display:flex;flex-direction:column}
+  .settle2 .s2-row{display:grid;grid-template-columns:48px 1.1fr .9fr .8fr .9fr;align-items:center;gap:12px;padding:17px 0;border-bottom:1px solid #2929291a}
+  .settle2 .s2-row:last-child{border-bottom:0}
+  .settle2 .s2-type{display:inline-grid;place-items:center;width:41px;height:20px;border-radius:6px;background:rgba(41,41,41,.06);font-size:12px;font-weight:600;color:#292929}
+  .settle2 .s2-cell .v{font-size:14px;font-weight:600;color:#212121;font-variant-numeric:tabular-nums}
+  .settle2 .s2-cell .c{font-size:12px;font-weight:400;color:#313131a3;margin-top:4px}
+  .settle2 .s2-cell.right{text-align:right}
+  .settle2 .s2-ai{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:14px 16px;margin-top:16px}
+  .settle2 .s2-ai .badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#10afc8;flex-shrink:0}
+  .settle2 .s2-ai .badge svg{width:14px;height:14px}
+  .settle2 .s2-ai .badge svg path{fill:#10afc8}
+  .settle2 .s2-ai .txt{font-size:13px;font-weight:400;color:#292929;line-height:1.5}
+  @media(max-width:760px){
+    .settle2 .s2-summary{grid-template-columns:1fr}
+    .settle2 .s2-row{grid-template-columns:auto 1fr;gap:8px 10px}
+    .settle2 .s2-cell.right{text-align:left}
+    .settle2 .s2-type{grid-row:1}
+  }
   .freshness{margin-top:22px;text-align:center;font-size:11.5px;color:var(--ink-3);font-weight:400}
   .freshness b{color:var(--ink-2);font-weight:600}
   .note-banner{grid-column:1/-1;background:var(--ai-soft);border:1px solid var(--line);border-radius:5px;padding:13px 16px;font-size:12.5px;color:var(--ink-2);font-weight:400;display:flex;gap:10px;align-items:flex-start}
@@ -551,6 +596,88 @@
       <div class="ai-suggest">
         <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
         <span class="txt">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. <b>오늘 입금액</b>과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
+      </div>
+    </section>
+
+    <section class="card span-2 settle2 order-settlement-v2">
+      <div class="s2-head">
+        <div>
+          <div class="s2-title">입금 예정 · 정산 현황 <i class="s2-help" title="연동된 정산 데이터를 기준으로 계산한 입금 예정 금액이에요. 실제 입금액은 정산 확정 시점에 달라질 수 있어요.">i</i></div>
+          <div class="s2-stamp">오늘 06:00 기준</div>
+        </div>
+        <button class="s2-solid" type="button" data-open-connect>+ 데이터 연동</button>
+      </div>
+
+      <div class="s2-connect">
+        <span class="s2-connect-desc">정확한 입금 예정액은 카드 · 배달앱 계정 연동 후 자동으로 확인할 수 있어요.</span>
+        <div class="s2-chips">
+          <span class="s2-chips-label">연동 서비스</span>
+          <span class="s2-chip"><span class="ck">✓</span>여신금융협회</span>
+          <span class="s2-chip"><span class="ck">✓</span>배달의민족</span>
+          <span class="s2-chip off"><span class="ck">+</span>쿠팡이츠</span>
+        </div>
+      </div>
+
+      <div class="s2-summary">
+        <div class="s2-sum"><div class="k">오늘 입금액</div><div class="v blue">4,708,230원</div><div class="c">카드 결제분 · 배민 정산 예정</div></div>
+        <div class="s2-sum"><div class="k">이번 주 확정 입금액</div><div class="v">7,547,020원</div><div class="c">전체 카드사 · 배달앱 정산 금액</div></div>
+        <div class="s2-sum"><div class="k">추가 입금 예정액</div><div class="v green">3,286,000원</div><div class="c">오늘 06:00 이후 결제 주문 기준</div></div>
+      </div>
+
+      <div class="s2-warn">
+        <svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff5a0a" stroke-width="2.2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span class="t"><b>확인 필요 1건</b> — 5/27(수) 결제된 현대카드 214,000원이 예정(5/29)에 입금되지 않았어요. 카드사 정산 내역 확인이 필요합니다.</span>
+        <button class="btn" type="button">정산 내역 확인</button>
+      </div>
+
+      <div class="s2-table">
+        <div class="s2-row">
+          <span class="s2-type">카드</span>
+          <div class="s2-cell"><div class="v">신한카드</div><div class="c">결제 26/05/30 · 금요일</div></div>
+          <div class="s2-cell right"><div class="v">1,920,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">-9,600원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v">1,910,400원</div><div class="c">입금예정</div></div>
+        </div>
+        <div class="s2-row">
+          <span class="s2-type">카드</span>
+          <div class="s2-cell"><div class="v">국민은행</div><div class="c">출금 26/05/29 · 목요일</div></div>
+          <div class="s2-cell right"><div class="v">500,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">-2,500원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v">497,500원</div><div class="c">입금예정</div></div>
+        </div>
+        <div class="s2-row">
+          <span class="s2-type">카드</span>
+          <div class="s2-cell"><div class="v">롯데카드</div><div class="c">결제 26/05/28 · 수요일</div></div>
+          <div class="s2-cell right"><div class="v">3,200,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">-16,000원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v">3,184,000원</div><div class="c">입금예정</div></div>
+        </div>
+        <div class="s2-row">
+          <span class="s2-type">카드</span>
+          <div class="s2-cell"><div class="v">현대카드</div><div class="c">입금 26/05/27 · 화요일</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">0원</div><div class="c">수수료 없음</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">입금예정</div></div>
+        </div>
+        <div class="s2-row">
+          <span class="s2-type">배달</span>
+          <div class="s2-cell"><div class="v">배달의민족</div><div class="c">입금 26/05/27 · 화요일</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">0원</div><div class="c">수수료 없음</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">입금예정</div></div>
+        </div>
+        <div class="s2-row">
+          <span class="s2-type">배달</span>
+          <div class="s2-cell"><div class="v">쿠팡이츠</div><div class="c">입금 26/05/27 · 화요일</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">결제액</div></div>
+          <div class="s2-cell right"><div class="v">0원</div><div class="c">수수료 없음</div></div>
+          <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">입금예정</div></div>
+        </div>
+      </div>
+
+      <div class="s2-ai">
+        <span class="badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z"/></svg>AI 어드바이스</span>
+        <span class="txt">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. 오늘 입금액과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
       </div>
     </section>
 
