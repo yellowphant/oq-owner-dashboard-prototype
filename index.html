@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OQ 사장님 대시보드 — 운영형</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2322211f'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='700' fill='white'%3EOQ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
@@ -323,7 +324,8 @@
   .provider-tag{font-size:10.5px;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);border-radius:999px;padding:3px 7px;white-space:nowrap}
   .provider-field{display:flex;flex-direction:column;gap:5px;margin-top:9px}
   .provider-field label{font-size:10.5px;color:var(--ink-3);font-weight:700}
-  .provider-field input{height:36px;border:1px solid var(--line);border-radius:5px;background:#fff;padding:0 10px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink)}
+  .provider-field input{height:36px;border:1px solid var(--line);border-radius:5px;background:#fff;padding:0 10px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);transition:border-color .15s ease,box-shadow .15s ease}
+  .provider-field input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
   .provider-help{font-size:11px;color:var(--ink-3);font-weight:500;line-height:1.45;margin-top:10px}
   .modal-note{margin-top:14px;background:var(--blue-soft);border:1px solid rgba(0,124,255,.14);border-radius:5px;padding:11px 12px;font-size:12px;color:var(--ink-2);font-weight:500;line-height:1.5}
   .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
@@ -354,18 +356,16 @@
   .price-source{margin-top:8px;font-size:11.5px;color:var(--ink-3);font-weight:500}
   .price-note{margin-top:14px;background:var(--brand-soft);border:1px solid rgba(255,90,10,.18);border-radius:5px;padding:12px 13px;font-size:12.5px;color:var(--brand-ink);font-weight:500}
   @keyframes progressIn{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
-  .rep-empty{margin-top:2px;border:1px dashed var(--line);border-radius:5px;padding:18px 20px;background:var(--ai-soft);font-size:13px;color:var(--ink-3);font-weight:400;line-height:1.6}
-  .rep-empty b{color:var(--ink-2);font-weight:700}
-  .rep-score{display:flex;align-items:baseline;gap:10px;margin:2px 0 12px}
-  .rep-score .num{font-size:32px;font-weight:700;letter-spacing:-0.03em}
-  .rep-score .of{font-size:14px;color:var(--ink-3);font-weight:500}
-  .rep-score .cnt{font-size:12.5px;color:var(--ink-3);font-weight:500;margin-left:auto}
-  .rep-summary{font-size:13px;color:var(--ink-2);font-weight:400;line-height:1.65;background:var(--bg);border-radius:5px;padding:12px 14px}
   /* ===== 정산 카드 v2 (Figma 28:1434 기준, design-tokens.md) ===== */
-  .settle2{border:1px solid #2929291a;border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,.05),0 0 4px rgba(0,0,0,.04);padding:20px;font-feature-settings:'ss05'}
-  .settle2 .s2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:20px;border-bottom:1px solid #2929291a;margin-bottom:16px}
+  .settle2,.rep2{border:1px solid #2929291a;border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,.05),0 0 4px rgba(0,0,0,.04);padding:20px;font-feature-settings:'ss05'}
+  .settle2 .s2-head,.rep2 .r2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:20px;border-bottom:1px solid #2929291a;margin-bottom:16px}
   .settle2 .s2-title{display:flex;align-items:center;gap:4px;font-size:18px;font-weight:600;color:#212121;letter-spacing:-0.036px}
-  .settle2 .s2-help{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#31313199;cursor:help;border:1px solid #2929291a;font-size:12px;font-weight:600;font-style:normal}
+  .settle2 .s2-help{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:2px;color:#313131a3;cursor:help;flex-shrink:0}
+  .settle2 .s2-help svg{width:20px;height:20px;display:block}
+  .settle2 .s2-tip{position:absolute;top:calc(100% + 6px);left:0;z-index:20;display:none;flex-direction:column;gap:4px;background:#202020;color:#fff;padding:8px;border-radius:6px;white-space:nowrap;text-align:left;cursor:default;box-shadow:0 0 2px rgba(0,0,0,.04),0 8px 8px rgba(0,0,0,.08)}
+  .settle2 .s2-help:hover .s2-tip,.settle2 .s2-help:focus-visible .s2-tip{display:flex}
+  .settle2 .s2-tip b{font-size:13px;font-weight:600;line-height:1.385;letter-spacing:0.252px}
+  .settle2 .s2-tip span{font-size:12px;font-weight:400;line-height:1.334;letter-spacing:0.302px}
   .settle2 .s2-stamp{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;margin-top:4px}
   .settle2 .s2-solid{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;background:#212121;color:#fff;border:0;border-radius:6px;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.203px;cursor:pointer;white-space:nowrap;flex-shrink:0}
   .settle2 .s2-connect{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;margin-bottom:16px;flex-wrap:wrap}
@@ -374,9 +374,10 @@
   .settle2 .s2-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .settle2 .s2-chips-label{font-size:13px;font-weight:600;color:#292929cc;margin-right:2px}
   .settle2 .s2-chip{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;border-radius:999px;background:#f6f6f6;font-size:12px;font-weight:500;color:#212121}
-  .settle2 .s2-chip .ck{font-weight:700;color:#13af61}
-  .settle2 .s2-chip.off{background:#fff;border:1px dashed #2929291a;color:#313131a3}
-  .settle2 .s2-chip.off .ck{color:#313131a3}
+  .settle2 .s2-chip .ck{display:inline-flex;align-items:center}
+  .settle2 .s2-chip .ck svg{width:12px;height:12px;display:block}
+  .settle2 .s2-chip.off{background:#fff;border:1px dashed #2929291a;color:#313131a3;cursor:pointer}
+  .settle2 .s2-solid svg{width:16px;height:16px;display:block}
   .settle2 .s2-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
   .settle2 .s2-sum{border:1px solid #2929291a;border-radius:6px;padding:20px}
   .settle2 .s2-sum .k{font-size:13px;font-weight:600;color:#292929cc;letter-spacing:0.252px;margin-bottom:8px}
@@ -392,23 +393,62 @@
   .settle2 .s2-table{display:flex;flex-direction:column}
   .settle2 .s2-row{display:grid;grid-template-columns:auto 1fr 1fr 72px 1fr;align-items:center;gap:16px;padding:16px 8px;border-bottom:1px solid #2929291a}
   .settle2 .s2-row:last-child{border-bottom:0}
-  .settle2 .s2-type{padding:0 8px;font-size:14px;font-weight:500;color:#007cff;white-space:nowrap}
+  .settle2 .s2-type{padding:0 8px;font-size:14px;line-height:20px;font-weight:500;letter-spacing:0.0145em;color:#007cff;white-space:nowrap;font-feature-settings:'ss05'}
+  .settle2 .s2-type.delivery{color:#10afc8}
   .settle2 .s2-cell .v{font-size:14px;font-weight:600;color:#212121;font-variant-numeric:tabular-nums}
   .settle2 .s2-cell .c{font-size:12px;font-weight:400;color:#313131a3;margin-top:4px}
   .settle2 .s2-cell.right{text-align:right}
   .settle2 .s2-row>.s2-cell:nth-child(3){text-align:left}     /* 결제액 좌측 정렬 (Figma) */
   .settle2 .s2-row>.s2-cell:nth-child(4) .v{font-size:15px}   /* 수수료 값 15px (Body2) */
-  .settle2 .s2-ai{display:flex;align-items:flex-start;gap:8px;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;padding:16px 12px;margin-top:16px}
-  .settle2 .s2-ai .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#10afc8;letter-spacing:0.302px;flex-shrink:0}
+  .settle2 .s2-ai{display:flex;min-width:328px;padding:16px 12px;flex-direction:column;align-items:flex-start;gap:8px;align-self:stretch;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;margin-top:16px}
+  .settle2 .s2-ai .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;line-height:16px;color:#10afc8;letter-spacing:0.302px;flex-shrink:0}
   .settle2 .s2-ai .ai-ico{display:inline-flex;align-items:center;justify-content:center;background:#10afc8;border-radius:4px;padding:2px}
   .settle2 .s2-ai .ai-ico svg{width:12px;height:12px}
   .settle2 .s2-ai .ai-ico svg path{fill:#fff}
-  .settle2 .s2-ai .txt{font-size:12px;font-weight:500;color:#212121;line-height:1.334;letter-spacing:0.302px;padding-left:16px}
+  .settle2 .s2-ai .txt{display:block;font-size:12px;font-weight:500;color:#212121;line-height:16px;letter-spacing:0.302px;white-space:nowrap}
+  .rep2 .r2-title{font-size:18px;font-weight:600;color:#212121;letter-spacing:-0.036px;line-height:1.445}
+  .rep2 .r2-stamp{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;margin-top:4px}
+  .rep2 .r2-chip{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;border-radius:999px;background:#f6f6f6;font-size:12px;font-weight:500;color:#212121;letter-spacing:0.302px}
+  .rep2 .r2-connect{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;margin-bottom:16px;flex-wrap:wrap}
+  .rep2 .r2-connect-desc{font-size:14px;font-weight:400;color:#292929cc}
+  .rep2 .r2-connect-desc b{font-weight:600;color:#212121}
+  .rep2 .r2-sources{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rep2 .r2-sources-label{font-size:13px;font-weight:600;color:#292929cc;margin-right:2px}
+  .rep2 .r2-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  .rep2 .r2-sum{border:1px solid #2929291a;border-radius:6px;padding:20px}
+  .rep2 .r2-sum .k{font-size:13px;font-weight:600;color:#292929cc;letter-spacing:0.252px;margin-bottom:8px}
+  .rep2 .r2-sum .v{font-size:20px;font-weight:600;letter-spacing:-0.24px;line-height:1.4;color:#212121}
+  .rep2 .r2-sum .v.cyan{color:#10afc8}
+  .rep2 .r2-sum .v.muted{color:#313131a3}
+  .rep2 .r2-sum .c{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;margin-top:8px}
+  .rep2 .r2-note{display:flex;align-items:center;gap:8px;background:rgba(16,175,200,.08);border-radius:8px;padding:12px;margin-bottom:8px}
+  .rep2 .r2-note .ico{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;background:#10afc8;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+  .rep2 .r2-note .t{flex:1;font-size:14px;font-weight:600;color:#212121;line-height:1.429;letter-spacing:0.203px}
+  .rep2 .r2-note .t b{color:#10afc8;font-weight:600}
+  .rep2 .r2-table{display:flex;flex-direction:column}
+  .rep2 .r2-row{display:grid;grid-template-columns:88px 1fr 1fr 1fr;align-items:center;gap:16px;padding:16px 8px;border-bottom:1px solid #2929291a}
+  .rep2 .r2-row:last-child{border-bottom:0}
+  .rep2 .r2-type{padding:0 8px;font-size:14px;line-height:20px;font-weight:500;letter-spacing:0.0145em;color:#10afc8;white-space:nowrap;font-feature-settings:'ss05'}
+  .rep2 .r2-cell .v{font-size:14px;font-weight:600;color:#212121;font-variant-numeric:tabular-nums}
+  .rep2 .r2-cell .c{font-size:12px;font-weight:400;color:#313131a3;margin-top:4px}
+  .rep2 .r2-cell.right{text-align:right}
+  .rep2 .r2-ai{display:flex;min-width:328px;padding:16px 12px;flex-direction:column;align-items:flex-start;gap:8px;align-self:stretch;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;margin-top:16px}
+  .rep2 .r2-ai .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;line-height:16px;color:#10afc8;letter-spacing:0.302px;flex-shrink:0}
+  .rep2 .r2-ai .ai-ico{display:inline-flex;align-items:center;justify-content:center;background:#10afc8;border-radius:4px;padding:2px}
+  .rep2 .r2-ai .ai-ico svg{width:12px;height:12px}
+  .rep2 .r2-ai .txt{display:block;font-size:12px;font-weight:500;color:#212121;line-height:16px;letter-spacing:0.302px}
   @media(max-width:760px){
     .settle2 .s2-summary{grid-template-columns:1fr}
     .settle2 .s2-row{grid-template-columns:auto 1fr;gap:8px 10px}
     .settle2 .s2-cell.right{text-align:left}
     .settle2 .s2-type{grid-row:1}
+    .settle2 .s2-ai{min-width:0}
+    .settle2 .s2-ai .txt{white-space:normal}
+    .rep2 .r2-summary{grid-template-columns:1fr}
+    .rep2 .r2-row{grid-template-columns:auto 1fr;gap:8px 10px}
+    .rep2 .r2-cell.right{text-align:left}
+    .rep2 .r2-type{grid-row:1}
+    .rep2 .r2-ai{min-width:0}
   }
   .freshness{margin-top:22px;text-align:center;font-size:11.5px;color:var(--ink-3);font-weight:400}
   .freshness b{color:var(--ink-2);font-weight:600}
@@ -537,88 +577,22 @@
       </div>
     </section>
 
-    <section class="card span-2 order-settlement">
-      <div class="card-head">
-        <span class="card-title">입금 예정 · 정산 현황</span>
-        <div class="card-actions"><button class="connect-btn" type="button" data-open-connect>데이터 연동하기</button></div>
-      </div>
-      <div class="card-sub with-stamp"><span>연동된 카드·배달앱 정산 데이터를 기준으로 입금 예정액을 보여줘요.</span><span class="stamp">오늘 06:00 기준</span></div>
-      <div class="connect-strip">
-        <div class="connect-copy"><b>정확한 입금 예정액</b>은 카드·배달앱 계정 연동 후 자동으로 확인할 수 있어요.</div>
-        <div class="connect-chips">
-          <span class="connect-chip">여신금융협회</span>
-          <span class="connect-chip">배달의민족</span>
-          <span class="connect-chip">쿠팡이츠</span>
-        </div>
-      </div>
-      <div class="stl-top">
-        <div class="stl-box in"><div class="k">오늘 입금액</div><div class="v">4,708,230원</div><div class="when">카드사 3곳 + 배민 정산 예정</div></div>
-        <div class="stl-box pend is-empty"><div class="k">이번 주 확정 입금</div><div><div class="empty-title">데이터 연동 전이에요.</div><div class="empty-copy">연동 후 확정 입금액을 확인할 수 있어요.</div></div><button class="box-connect" type="button" data-open-connect>데이터 연동하기</button></div>
-        <div class="stl-box more"><div class="k">추가 입금 예상</div><div class="v">3,286,000원</div><div class="when">오늘 06:00 이후 결제·주문분</div></div>
-      </div>
-      <div class="stl-alert priority">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c98a00" stroke-width="2.2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-        <span class="txt"><b>확인 필요 1건</b> — 5/27(수) 결제된 현대카드 214,000원이 예정일(5/29)에 입금되지 않았어요. 카드사 정산 내역 확인이 필요합니다.</span>
-      </div>
-      <div class="stl-rows">
-        <div class="stl-row">
-          <span class="lbl"><span class="cardchip" style="background:#2b6cf0">신한</span>신한카드</span>
-          <span class="stl-cell date-cell"><span class="k">결제일</span><span class="v">5/30</span><span class="sub">금요일</span></span>
-          <span class="stl-cell"><span class="k">결제액</span><span class="v">1,920,000원</span></span>
-          <span class="stl-cell"><span class="k">수수료</span><span class="v fee">0.50%</span><span class="sub">-9,600원</span></span>
-          <span class="stl-cell deposit-cell"><span class="k">입금 예정</span><span class="v deposit">1,910,400원</span></span>
-        </div>
-        <div class="stl-row">
-          <span class="lbl"><span class="cardchip" style="background:#e8401f">KB국민</span>KB국민카드</span>
-          <span class="stl-cell date-cell"><span class="k">결제일</span><span class="v">5/30</span><span class="sub">금요일</span></span>
-          <span class="stl-cell"><span class="k">결제액</span><span class="v">1,340,000원</span></span>
-          <span class="stl-cell"><span class="k">수수료</span><span class="v fee">0.85%</span><span class="sub">-11,390원</span></span>
-          <span class="stl-cell deposit-cell"><span class="k">입금 예정</span><span class="v deposit">1,328,610원</span></span>
-        </div>
-        <div class="stl-row">
-          <span class="lbl"><span class="cardchip" style="background:#00857a">삼성</span>삼성카드</span>
-          <span class="stl-cell date-cell"><span class="k">결제일</span><span class="v">5/30</span><span class="sub">금요일</span></span>
-          <span class="stl-cell"><span class="k">결제액</span><span class="v">980,000원</span></span>
-          <span class="stl-cell"><span class="k">수수료</span><span class="v fee">1.10%</span><span class="sub">-10,780원</span></span>
-          <span class="stl-cell deposit-cell"><span class="k">입금 예정</span><span class="v deposit">969,220원</span></span>
-        </div>
-        <div class="stl-row">
-          <span class="lbl"><span class="cardchip" style="background:#2ac1bc">배민</span>배달의민족</span>
-          <span class="stl-cell date-cell"><span class="k">주문일</span><span class="v">5/31</span><span class="sub">토요일</span></span>
-          <span class="stl-cell"><span class="k">주문액</span><span class="v">568,000원</span></span>
-          <span class="stl-cell"><span class="k">중개·배달 수수료</span><span class="v fee">7.8%</span><span class="sub">-67,000원</span></span>
-          <span class="stl-cell deposit-cell"><span class="k">오늘 정산 예정</span><span class="v deposit">500,000원</span></span>
-        </div>
-        <div class="stl-row">
-          <span class="lbl"><span class="cardchip" style="background:#5a2eea">쿠팡</span>쿠팡이츠</span>
-          <span class="stl-cell date-cell"><span class="k">주문일</span><span class="v">5/31</span><span class="sub">토요일</span></span>
-          <span class="stl-cell"><span class="k">주문액</span><span class="v">1,378,000원</span></span>
-          <span class="stl-cell"><span class="k">중개·배달 수수료</span><span class="v fee">8.6%</span><span class="sub">-158,000원</span></span>
-          <span class="stl-cell deposit-cell"><span class="k">6/3 정산 예정</span><span class="v deposit">1,220,000원</span></span>
-        </div>
-      </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. <b>오늘 입금액</b>과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
-      </div>
-    </section>
-
     <section class="card span-2 settle2 order-settlement-v2">
       <div class="s2-head">
         <div>
-          <div class="s2-title">입금 예정 · 정산 현황 <i class="s2-help" title="연동된 정산 데이터를 기준으로 계산한 입금 예정 금액이에요. 실제 입금액은 정산 확정 시점에 달라질 수 있어요.">i</i></div>
+          <div class="s2-title">입금 예정 · 정산 현황 <span class="s2-help" tabindex="0" aria-label="입금 예정·정산 현황 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="s2-tip"><b>입금 예정 · 정산 현황</b><span>연동된 정산 데이터를 기준으로 계산한 입금 예정 금액이에요.<br>실제 입금액은 정산 확정 시점에 달라질 수 있어요.</span></span></span></div>
           <div class="s2-stamp">오늘 06:00 기준</div>
         </div>
-        <button class="s2-solid" type="button" data-open-connect>+ 데이터 연동</button>
+        <button class="s2-solid" type="button" data-open-connect><svg viewBox="0 0 12 12" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1.5C6.27614 1.5 6.5 1.72386 6.5 2V5.5H10C10.2761 5.5 10.5 5.72386 10.5 6C10.5 6.27614 10.2761 6.5 10 6.5H6.5V10C6.5 10.2761 6.27614 10.5 6 10.5C5.72386 10.5 5.5 10.2761 5.5 10V6.5H2C1.72386 6.5 1.5 6.27614 1.5 6C1.5 5.72386 1.72386 5.5 2 5.5H5.5V2C5.5 1.72386 5.72386 1.5 6 1.5Z" fill="#fff"/></svg>데이터 연동</button>
       </div>
 
       <div class="s2-connect">
         <span class="s2-connect-desc"><b>정확한 입금 예정액</b>은 카드 · 배달앱 계정 연동 후 자동으로 확인할 수 있어요.</span>
         <div class="s2-chips">
           <span class="s2-chips-label">연동 서비스</span>
-          <span class="s2-chip"><span class="ck">✓</span>여신금융협회</span>
-          <span class="s2-chip"><span class="ck">✓</span>배달의민족</span>
-          <span class="s2-chip off"><span class="ck">+</span>쿠팡이츠</span>
+          <span class="s2-chip"><span class="ck"><svg viewBox="0 0 12 12" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.8162 3.32148C10.0603 3.56556 10.0603 3.96129 9.8162 4.20537L5.34307 8.67852C5.22586 8.79573 5.06689 8.86158 4.90113 8.86158C4.73537 8.86158 4.5764 8.79573 4.45919 8.67852L2.18391 6.40324C1.93983 6.15916 1.93984 5.76344 2.18391 5.51936C2.42799 5.27528 2.82372 5.27528 3.0678 5.51936L4.90113 7.35269L8.93231 3.32149C9.17639 3.07741 9.57212 3.07741 9.8162 3.32148Z" fill="#13AF61"/></svg></span>여신금융협회</span>
+          <span class="s2-chip"><span class="ck"><svg viewBox="0 0 12 12" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.8162 3.32148C10.0603 3.56556 10.0603 3.96129 9.8162 4.20537L5.34307 8.67852C5.22586 8.79573 5.06689 8.86158 4.90113 8.86158C4.73537 8.86158 4.5764 8.79573 4.45919 8.67852L2.18391 6.40324C1.93983 6.15916 1.93984 5.76344 2.18391 5.51936C2.42799 5.27528 2.82372 5.27528 3.0678 5.51936L4.90113 7.35269L8.93231 3.32149C9.17639 3.07741 9.57212 3.07741 9.8162 3.32148Z" fill="#13AF61"/></svg></span>배달의민족</span>
+          <span class="s2-chip off" data-open-connect data-focus="coupang-id" role="button" tabindex="0"><span class="ck"><svg viewBox="0 0 12 12" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1.5C6.27614 1.5 6.5 1.72386 6.5 2V5.5H10C10.2761 5.5 10.5 5.72386 10.5 6C10.5 6.27614 10.2761 6.5 10 6.5H6.5V10C6.5 10.2761 6.27614 10.5 6 10.5C5.72386 10.5 5.5 10.2761 5.5 10V6.5H2C1.72386 6.5 1.5 6.27614 1.5 6C1.5 5.72386 1.72386 5.5 2 5.5H5.5V2C5.5 1.72386 5.72386 1.5 6 1.5Z" fill="#313131" fill-opacity="0.64"/></svg></span>쿠팡이츠</span>
         </div>
       </div>
 
@@ -629,8 +603,8 @@
       </div>
 
       <div class="s2-warn">
-        <svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff5a0a" stroke-width="2.2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-        <span class="t"><b>확인 필요 1건</b> — 5/27(수) 결제된 현대카드 214,000원이 예정(5/29)에 입금되지 않았어요. 카드사 정산 내역 확인이 필요합니다.</span>
+        <svg class="ico" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M9.15164 2.43448C9.62026 1.96586 10.3803 1.96585 10.8489 2.43448L17.5657 9.15127C18.0341 9.61987 18.0341 10.3799 17.5657 10.8485L10.8489 17.5653C10.3803 18.034 9.62026 18.0339 9.15164 17.5653L2.43484 10.8485C1.96622 10.3799 1.96622 9.61991 2.43484 9.15127L9.15164 2.43448ZM10.0003 12.2499C9.58607 12.2499 9.25029 12.5857 9.25027 12.9999V13.4999C9.25027 13.9141 9.58606 14.2499 10.0003 14.2499C10.4143 14.2497 10.7503 13.914 10.7503 13.4999V12.9999C10.7502 12.5858 10.4143 12.2501 10.0003 12.2499ZM10.0003 5.74991C9.58607 5.74991 9.25029 6.08571 9.25027 6.49991V10.4999C9.25027 10.9141 9.58606 11.2499 10.0003 11.2499C10.4143 11.2497 10.7503 10.914 10.7503 10.4999V6.49991C10.7502 6.08581 10.4143 5.75007 10.0003 5.74991Z" fill="#DD262B"/></svg>
+        <span class="t"><b>확인 필요 1건</b> - 5/27(수) 결제된 현대카드 214,000원이 예정(5/29)에 입금되지 않았어요. 카드사 정산 내역 확인이 필요합니다.</span>
         <button class="btn" type="button">정산 내역 확인</button>
       </div>
 
@@ -664,14 +638,14 @@
           <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">입금예정</div></div>
         </div>
         <div class="s2-row">
-          <span class="s2-type">배달</span>
+          <span class="s2-type delivery">배달</span>
           <div class="s2-cell"><div class="v">배달의민족</div><div class="c">입금 26/05/27 · 화요일</div></div>
           <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">결제액</div></div>
           <div class="s2-cell right"><div class="v">0원</div><div class="c">수수료 없음</div></div>
           <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">입금예정</div></div>
         </div>
         <div class="s2-row">
-          <span class="s2-type">배달</span>
+          <span class="s2-type delivery">배달</span>
           <div class="s2-cell"><div class="v">쿠팡이츠</div><div class="c">입금 26/05/27 · 화요일</div></div>
           <div class="s2-cell right"><div class="v">2,000,000원</div><div class="c">결제액</div></div>
           <div class="s2-cell right"><div class="v">0원</div><div class="c">수수료 없음</div></div>
@@ -680,7 +654,7 @@
       </div>
 
       <div class="s2-ai">
-        <span class="badge"><span class="ai-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z"/></svg></span>AI 어드바이스</span>
+        <span class="badge"><span class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752ZM2.77618 2.94752C2.86831 2.76326 3.13131 2.76326 3.22345 2.94752L3.46173 3.42506C3.48592 3.47344 3.52565 3.51318 3.57403 3.53737L4.05255 3.77662C4.23638 3.86893 4.23661 4.1318 4.05255 4.22389L3.57403 4.46217C3.52565 4.48636 3.48592 4.5261 3.46173 4.57448L3.22345 5.05299C3.13132 5.23697 2.86848 5.23678 2.77618 5.05299L2.53692 4.57448C2.51273 4.5261 2.473 4.48636 2.42462 4.46217L1.94708 4.22389C1.76282 4.13176 1.76282 3.86876 1.94708 3.77662L2.42462 3.53737C2.473 3.51318 2.51273 3.47344 2.53692 3.42506L2.77618 2.94752ZM9.46368 1.99342C9.41499 1.94472 9.33575 1.94494 9.28692 1.99342L7.65509 3.62526L8.37481 4.34498L10.0057 2.71315C10.0545 2.66433 10.0545 2.5852 10.0057 2.53639L9.46368 1.99342ZM5.27618 0.447523C5.36833 0.263261 5.63135 0.263261 5.72345 0.447523L5.9627 0.925062C5.98685 0.973442 6.02563 1.01318 6.07403 1.03737L6.55255 1.27662C6.73643 1.36891 6.73662 1.63179 6.55255 1.72389L6.07403 1.96217C6.02568 1.98634 5.98686 2.02617 5.9627 2.07448L5.72345 2.55299C5.63136 2.73703 5.36848 2.73686 5.27618 2.55299L5.03692 2.07448C5.01277 2.0261 4.973 1.98636 4.92462 1.96217L4.44708 1.72389C4.26282 1.63176 4.26282 1.36876 4.44708 1.27662L4.92462 1.03737C4.973 1.01318 5.01277 0.973442 5.03692 0.925062L5.27618 0.447523Z" fill="#fff"/></svg></span>AI 어드바이스</span>
         <span class="txt">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. 오늘 입금액과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
       </div>
     </section>
@@ -852,14 +826,37 @@
       </div>
     </section>
 
-    <section class="card span-2 order-reputation">
-      <div class="card-head"><span class="card-title">네이버·카카오 평판</span><span class="stamp" id="repStamp">준비 중</span></div>
-      <div class="card-sub">공개 리뷰·SNS 여론을 모아 종합한 우리 가게 평판이에요</div>
-      <div id="repBody">
-        <div class="rep-empty">리뷰 매칭·수집이 끝나면 여기에 종합 평점과 여론 요약이 표시돼요. 현재는 <b>준비 중</b>입니다.</div>
+    <section class="card span-2 rep2 order-reputation">
+      <div class="r2-head">
+        <div>
+          <div class="r2-title">네이버·카카오 평판</div>
+          <div class="r2-stamp" id="repStamp">준비 중</div>
+        </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
+      <div id="repBody">
+        <div class="r2-summary">
+          <div class="r2-sum"><div class="k">종합 평점</div><div class="v muted">준비 중</div><div class="c">네이버·카카오 리뷰 기준</div></div>
+          <div class="r2-sum"><div class="k">리뷰 수</div><div class="v muted">-</div><div class="c">수집 완료 후 표시</div></div>
+          <div class="r2-sum"><div class="k">여론 상태</div><div class="v muted">매칭 중</div><div class="c">리뷰 매칭·수집 대기</div></div>
+        </div>
+        <div class="r2-note"><span class="ico">i</span><span class="t">리뷰 매칭·수집이 끝나면 <b>종합 평점과 여론 요약</b>이 표시돼요. 현재는 준비 중입니다.</span></div>
+        <div class="r2-table">
+          <div class="r2-row">
+            <span class="r2-type">네이버</span>
+            <div class="r2-cell"><div class="v">준비 중</div><div class="c">공개 리뷰 매칭</div></div>
+            <div class="r2-cell right"><div class="v">-</div><div class="c">평점</div></div>
+            <div class="r2-cell right"><div class="v">-</div><div class="c">리뷰 수</div></div>
+          </div>
+          <div class="r2-row">
+            <span class="r2-type">카카오</span>
+            <div class="r2-cell"><div class="v">준비 중</div><div class="c">장소 리뷰 매칭</div></div>
+            <div class="r2-cell right"><div class="v">-</div><div class="c">평점</div></div>
+            <div class="r2-cell right"><div class="v">-</div><div class="c">리뷰 수</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="r2-ai">
+        <span class="badge"><span class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752Z" fill="#fff"/></svg></span>AI 어드바이스</span>
         <span class="txt">네이버·카카오 리뷰 평판은 매칭·수집이 완료되면 표시돼요. (준비 중)</span>
       </div>
     </section>
@@ -912,12 +909,17 @@
   connectModal.addEventListener('click',e=>{if(e.target===connectModal)closeConnect();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&connectModal.classList.contains('is-open'))closeConnect();});
   document.getElementById('connectSubmit').addEventListener('click',()=>{
-    document.querySelector('.connect-copy').innerHTML='<b>데이터 연동 완료</b> — 카드·배달앱 정산 데이터를 기준으로 확정 입금액을 확인했어요.';
+    const connectCopy=document.querySelector('.s2-connect-desc') || document.querySelector('.connect-copy');
+    if(connectCopy) connectCopy.innerHTML='<b>데이터 연동 완료</b> — 카드·배달앱 정산 데이터를 기준으로 확정 입금액을 확인했어요.';
     document.querySelectorAll('.connect-chip').forEach(chip=>chip.textContent=chip.textContent.replace(' 확인중','')+' 연동됨');
+    const confirmedValue=document.querySelector('.settle2 .s2-summary .s2-sum:nth-child(2) .v');
+    animateMetric(confirmedValue,7547020,{suffix:'원',duration:680});
     const pendingBox=document.querySelector('.stl-box.pend');
-    pendingBox.classList.remove('is-empty');
-    pendingBox.innerHTML='<div class="k">이번 주 확정 입금</div><div class="v">7,547,020원</div><div class="when">여신금융협회 + 배달앱 정산 연동</div>';
-    animateMetric(pendingBox.querySelector('.v'),7547020,{suffix:'원',duration:680});
+    if(pendingBox){
+      pendingBox.classList.remove('is-empty');
+      pendingBox.innerHTML='<div class="k">이번 주 확정 입금</div><div class="v">7,547,020원</div><div class="when">여신금융협회 + 배달앱 정산 연동</div>';
+      animateMetric(pendingBox.querySelector('.v'),7547020,{suffix:'원',duration:680});
+    }
     closeConnect();
   });
   const tip=document.createElement('div');
@@ -929,6 +931,7 @@
     return prefix+n.toLocaleString('ko-KR',{maximumFractionDigits:decimals,minimumFractionDigits:decimals})+suffix;
   };
   const animateMetric=(el,target,opts={})=>{
+    if(!el) return;
     el.classList.add('metric');
     if(prefersReducedMotion){el.textContent=formatNumber(target,opts);return;}
     const duration=opts.duration||720, start=performance.now(), from=opts.from||0;
@@ -1219,14 +1222,27 @@
     if(!body) return;
     if(!has.reputation(r)){
       // 아직 준비 중 — reason이 오면 안내 문구만 반영
-      if(rep.reason){const e=body.querySelector('.rep-empty');if(e)e.innerHTML='리뷰 매칭·수집이 끝나면 여기에 종합 평점과 여론 요약이 표시돼요. 현재는 <b>'+rep.reason+'</b>입니다.';}
+      if(rep.reason){
+        const e=body.querySelector('.r2-note .t');
+        if(e)e.innerHTML='리뷰 매칭·수집이 끝나면 <b>종합 평점과 여론 요약</b>이 표시돼요. 현재는 '+rep.reason+'입니다.';
+      }
       return;
     }
     // 실데이터: 종합 평점 + 여론 요약
     const score=rep.score!=null?rep.score:rep.rating, cnt=rep.review_count!=null?rep.review_count:rep.count;
-    let html='';
-    if(score!=null) html+='<div class="rep-score"><span class="num">'+score+'</span><span class="of">/ 5.0</span>'+(cnt!=null?'<span class="cnt">리뷰 '+Number(cnt).toLocaleString('ko-KR')+'건</span>':'')+'</div>';
-    if(rep.summary) html+='<div class="rep-summary">'+rep.summary+'</div>';
+    const naver=rep.naver||{}, kakao=rep.kakao||{};
+    const fmtScore=v=>v!=null?Number(v).toFixed(1):'-';
+    const fmtCount=v=>v!=null?Number(v).toLocaleString('ko-KR')+'건':'-';
+    let html='<div class="r2-summary">';
+    html+='<div class="r2-sum"><div class="k">종합 평점</div><div class="v cyan">'+(score!=null?fmtScore(score):'-')+'</div><div class="c">네이버·카카오 리뷰 기준</div></div>';
+    html+='<div class="r2-sum"><div class="k">리뷰 수</div><div class="v">'+(cnt!=null?Number(cnt).toLocaleString('ko-KR'):'-')+'</div><div class="c">수집된 공개 리뷰</div></div>';
+    html+='<div class="r2-sum"><div class="k">여론 상태</div><div class="v">'+(rep.sentiment||rep.status||'확인 완료')+'</div><div class="c">최근 리뷰 요약</div></div>';
+    html+='</div>';
+    if(rep.summary) html+='<div class="r2-note"><span class="ico">i</span><span class="t">'+rep.summary+'</span></div>';
+    html+='<div class="r2-table">';
+    html+='<div class="r2-row"><span class="r2-type">네이버</span><div class="r2-cell"><div class="v">'+(naver.label||'공개 리뷰')+'</div><div class="c">'+(naver.status||'리뷰 평점·건수 반영')+'</div></div><div class="r2-cell right"><div class="v">'+fmtScore(naver.score||naver.rating)+'</div><div class="c">평점</div></div><div class="r2-cell right"><div class="v">'+fmtCount(naver.review_count||naver.count)+'</div><div class="c">리뷰 수</div></div></div>';
+    html+='<div class="r2-row"><span class="r2-type">카카오</span><div class="r2-cell"><div class="v">'+(kakao.label||'장소 리뷰')+'</div><div class="c">'+(kakao.status||'리뷰 평점·건수 반영')+'</div></div><div class="r2-cell right"><div class="v">'+fmtScore(kakao.score||kakao.rating)+'</div><div class="c">평점</div></div><div class="r2-cell right"><div class="v">'+fmtCount(kakao.review_count||kakao.count)+'</div><div class="c">리뷰 수</div></div></div>';
+    html+='</div>';
     if(html) body.innerHTML=html;
     const stamp=document.getElementById('repStamp'); if(stamp&&r.data_as_of) stamp.textContent=r.data_as_of+' 기준';
   }
@@ -1240,6 +1256,16 @@
     .then(raw=>{try{apply(raw);}catch(e){console.warn('[oq] apply 실패, 더미 유지',e);}})
     .catch(err=>console.info('[oq] 실데이터 미연결(더미 유지):',err));
 })();
+</script>
+
+<script>
+  // 미연동 연동칩 클릭 시: 모달은 data-open-connect로 열리고, 해당 입력칸으로 커서 이동
+  document.querySelectorAll('.settle2 .s2-chip[data-focus]').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      const el=document.getElementById(chip.dataset.focus);
+      if(el) requestAnimationFrame(()=>el.focus());
+    });
+  });
 </script>
 </body>
 </html>
