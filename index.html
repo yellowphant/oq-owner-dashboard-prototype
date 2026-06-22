@@ -14,7 +14,7 @@
     --brand:#FE5A0A;--brand-weak:#ff7b3b;--brand-strong:#d44500;--brand-soft:rgba(255,90,10,.10);--brand-ink:#3d1400;
     --time-hot:#f7b895;--time-hot-border:#ef9b6f;
     --good:#119a56;--good-soft:rgba(17,154,86,.10);--warn:#ff5a0a;--warn-soft:rgba(255,90,10,.10);
-    --blue:#007cff;--blue-soft:rgba(0,124,255,.08);--ai:#212121;--ai-soft:rgba(120,120,128,.08);
+    --blue:#007cff;--blue-soft:rgba(0,124,255,.08);--red:#dd262b;--ai:#212121;--ai-soft:rgba(120,120,128,.08);
     --radius:6px;--shadow:none;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,36 +59,43 @@
   .card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.13s}
   .card:nth-child(4){animation-delay:.18s}.card:nth-child(5){animation-delay:.23s}.card:nth-child(6){animation-delay:.28s}
   .card:nth-child(7){animation-delay:.33s}.card:nth-child(8){animation-delay:.38s}.card:nth-child(9){animation-delay:.43s}
-  .card.is-visible .card-head,.card.is-visible .card-sub,.card.is-visible .ai-badge,.card.is-visible .ai-headline,
-  .card.is-visible .ai-conclusion,.card.is-visible .ai-suggest,.card.is-visible .ev,.card.is-visible .stl-row,
+  .card.is-visible .card-head,.card.is-visible .ai-badge,.card.is-visible .ai-advice,.card.is-visible .ai-headline,
+  .card.is-visible .ai-conclusion,.card.is-visible .ev,.card.is-visible .stl-row,
   .card.is-visible .comp-item,.card.is-visible .peer-def,.card.is-visible .trend-note,.card.is-visible .ch-src-row{
     animation:itemRise .55s cubic-bezier(.2,.8,.2,1) both;
   }
-  .card.is-visible .card-sub,.card.is-visible .ai-headline{animation-delay:.08s}
+  .card.is-visible .ai-headline{animation-delay:.08s}
   .card.is-visible .ai-conclusion,.card.is-visible .ev:nth-child(1),.card.is-visible .stl-row:nth-child(1),.card.is-visible .comp-item:nth-child(1){animation-delay:.14s}
-  .card.is-visible .ai-suggest,.card.is-visible .ev:nth-child(2),.card.is-visible .stl-row:nth-child(2),.card.is-visible .comp-item:nth-child(2){animation-delay:.2s}
+  .card.is-visible .ai-advice,.card.is-visible .ev:nth-child(2),.card.is-visible .stl-row:nth-child(2),.card.is-visible .comp-item:nth-child(2){animation-delay:.2s}
   .card.is-visible .ev:nth-child(3),.card.is-visible .stl-row:nth-child(3),.card.is-visible .comp-item:nth-child(3){animation-delay:.26s}
   .card.is-visible .stl-row:nth-child(4),.card.is-visible .comp-item:nth-child(4){animation-delay:.32s}
   .card.is-visible .stl-row:nth-child(5),.card.is-visible .comp-item:nth-child(5){animation-delay:.38s}
   .card.is-visible .stl-row:nth-child(6){animation-delay:.44s}
   @keyframes itemRise{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
-  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:10px}
-  .card-title{font-size:16px;font-weight:700;letter-spacing:-0.03em}
-  .card-sub{font-size:12.5px;color:var(--ink-3);font-weight:400;margin-bottom:16px}
-  .card-sub.with-stamp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px}
+  .card-title-block{display:flex;min-width:0;flex-direction:column;align-items:flex-start}
+  .card-title{display:flex;align-items:center;gap:4px;font-size:18px;font-weight:600;color:#212121;letter-spacing:-0.036px;line-height:1.445}
+  .title-help{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:2px;color:#313131a3;background:transparent;border:0;border-radius:4px;font:inherit;cursor:help;flex-shrink:0}
+  .title-help svg{width:20px;height:20px;display:block}
+  .title-tip{position:absolute;top:calc(100% + 6px);left:0;z-index:20;display:none;flex-direction:column;gap:4px;min-width:220px;max-width:min(320px,calc(100vw - 44px));background:#202020;color:#fff;padding:8px;border-radius:6px;white-space:normal;text-align:left;cursor:default;box-shadow:0 0 2px rgba(0,0,0,.04),0 8px 8px rgba(0,0,0,.08)}
+  .title-help:hover .title-tip,.title-help:focus .title-tip,.title-help:focus-visible .title-tip,.title-help.is-open .title-tip{display:flex}
+  .title-tip b{font-size:13px;font-weight:600;line-height:1.385;letter-spacing:0.252px}
+  .title-tip span{font-size:12px;font-weight:400;line-height:1.334;letter-spacing:0.302px}
   .card-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-  .stamp{font-size:11px;color:var(--ink-3);font-weight:400;flex-shrink:0}
+  .stamp{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;line-height:1.385;margin-top:4px;flex-shrink:0}
   .connect-btn{border:1px solid #222222;background:#222222;color:#fff;border-radius:4px;padding:7px 11px;font-family:inherit;font-size:11.5px;font-weight:700;line-height:1;cursor:pointer}
   .connect-btn.secondary{background:#fff;color:var(--brand-ink)}
   .ai-badge{display:inline-flex;align-items:center;gap:6px;background:var(--ai-soft);color:var(--ink-2);border:1px solid var(--line-2);font-size:11px;font-weight:600;
     padding:5px 10px;border-radius:4px;letter-spacing:-0.03em;flex-shrink:0}
   .ai-badge svg{width:12px;height:12px}
   .ai-badge svg path{fill:var(--ink-3)}
-  .ai-suggest{margin-top:16px;padding:13px 14px;background:var(--ai-soft);border:1px solid var(--line-2);border-radius:5px;display:flex;gap:12px;align-items:flex-start}
-  .ai-suggest .ai-badge{background:var(--brand);border-color:var(--brand);color:#fff;min-height:28px;padding:6px 10px;font-size:11.5px;line-height:1;align-self:flex-start}
-  .ai-suggest .ai-badge svg path{fill:#fff}
-  .ai-suggest .txt{font-size:13px;color:var(--ink-2);font-weight:400;line-height:1.65;padding-top:1px;display:block}
-  .ai-suggest .txt b{color:var(--brand-ink);font-weight:600}
+  .ai-advice{display:flex;min-width:328px;padding:16px 12px;flex-direction:column;align-items:flex-start;gap:8px;align-self:stretch;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;margin-top:16px}
+  .ai-advice-badge{display:inline-flex;align-items:center;gap:8px;color:#10afc8;font-size:12px;font-weight:600;line-height:16px;letter-spacing:0.302px;flex-shrink:0}
+  .ai-advice-icon{display:inline-flex;align-items:center;justify-content:center;background:#10afc8;border-radius:4px;padding:2px}
+  .ai-advice-icon svg{width:12px;height:12px;display:block}
+  .ai-advice-icon svg path{fill:#fff}
+  .ai-advice-text{display:block;font-size:12px;font-weight:500;color:#212121;line-height:16px;letter-spacing:0.302px}
+  .ai-advice-text b{color:#212121;font-weight:600}
   .hero{background:var(--card);position:relative;overflow:hidden}
   .hero-grid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:34px;align-items:center}
   .hero .hello{font-size:13px;color:var(--ink-3);font-weight:500;margin-bottom:6px}
@@ -113,13 +120,13 @@
   .hero-spark-head .t{font-size:12px;font-weight:600;color:var(--ink-3)}
   .hero-spark-head .peak{font-size:11.5px;font-weight:600;color:var(--brand-ink)}
   .hero-spark{display:flex;align-items:flex-end;gap:3px;height:62px}
-  .hs-bar{flex:1;background:var(--line-2);border-radius:2px;min-height:4px;transform-origin:bottom;position:relative;
+  .hs-bar{flex:1;background:var(--line-2);border-radius:4px 4px 0 0;min-height:4px;transform-origin:bottom;position:relative;
     transform:scaleY(0);animation:grow .7s cubic-bezier(.2,.8,.3,1) forwards;cursor:pointer;transition:filter .2s ease,transform .2s ease}
   .hs-bar:hover{filter:saturate(1.2) brightness(.97)}
   .hs-bar.hi{background:var(--brand)}
-  .hs-bar.future{background:transparent;border:1px dashed var(--line);opacity:.75;cursor:default}
+  .hs-bar.future{background:transparent;opacity:.75;cursor:default}
   .hs-bar.future:hover{filter:none}
-  .hs-bar .prev-bar{position:absolute;left:50%;bottom:0;width:70%;height:var(--prev);border-radius:2px;background:rgba(33,33,33,.42);transform:translateX(-50%) scaleY(0);transform-origin:bottom;transition:transform .2s ease;z-index:1}
+  .hs-bar .prev-bar{position:absolute;left:50%;bottom:0;width:70%;height:var(--prev);border-radius:4px 4px 0 0;background:rgba(33,33,33,.42);transform:translateX(-50%) scaleY(0);transform-origin:bottom;transition:transform .2s ease;z-index:1}
   .hs-bar:not(.future)::after{content:"";position:absolute;inset:0;border-radius:inherit;background:inherit;z-index:2;pointer-events:none}
   .hero-spark.show-prev .hs-bar:not(.future) .prev-bar{transform:translateX(-50%) scaleY(1)}
   .prev-legend{display:none;margin-top:7px;font-size:11px;color:var(--ink-3);font-weight:600;align-items:center;gap:6px}
@@ -144,7 +151,7 @@
   .chart{display:flex;align-items:flex-end;gap:7px;height:128px;padding-top:8px}
   .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%}
   .bar-track{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
-  .bar{width:72%;max-width:26px;border-radius:5px 5px 3px 3px;background:var(--line-2);position:relative;
+  .bar{width:72%;max-width:26px;border-radius:4px 4px 0 0;background:var(--line-2);position:relative;
     transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards;cursor:pointer;transition:filter .18s ease}
   .bar:hover,.tbar:hover,.tm-tick:hover{filter:saturate(1.2) brightness(.96)}
   @keyframes grow{to{transform:scaleY(1)}}
@@ -188,7 +195,7 @@
   .trend{display:flex;align-items:stretch;gap:14px;min-height:154px;flex:1;min-width:0}
   .tcol{flex:1;display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0}
   .ttrack{height:100px;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;border-bottom:1px solid var(--line-2);padding-top:20px}
-  .tbar{width:62%;max-width:24px;border-radius:4px 4px 2px 2px;background:var(--line);
+  .tbar{width:62%;max-width:24px;border-radius:4px 4px 0 0;background:var(--line);
     transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards;cursor:pointer;transition:filter .18s ease}
   .tbar.wk{background:var(--brand)}
   .tamount{position:absolute;left:50%;bottom:calc(var(--bar-h) + 6px);transform:translateX(-50%);font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-0.03em;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:center}
@@ -219,10 +226,10 @@
   .tm-name{font-size:13.5px;font-weight:600;min-width:0;grid-column:1}
   .tm-spark-wrap{min-width:0}
   .tm-spark{display:grid;grid-template-columns:repeat(13,minmax(12px,1fr));align-items:end;gap:4px;height:46px;padding:0 2px}
-  .tm-tick{background:var(--line-2);border-radius:3px 3px 2px 2px;min-height:4px;transform-origin:bottom;transform:scaleY(0);animation:grow .6s cubic-bezier(.2,.8,.3,1) forwards;position:relative}
+  .tm-tick{background:var(--line-2);border-radius:4px 4px 0 0;min-height:4px;transform-origin:bottom;transform:scaleY(0);animation:grow .6s cubic-bezier(.2,.8,.3,1) forwards;position:relative}
   .tm-tick{cursor:pointer;transition:filter .18s ease}
   .tm-tick.pk{background:var(--brand)}
-  .tm-tick.hot{background:var(--time-hot);box-shadow:inset 0 0 0 1px var(--time-hot-border)}
+  .tm-tick.hot{background:var(--time-hot)}
   .tm-hours{display:grid;grid-template-columns:repeat(13,1fr);gap:4px;margin-top:5px;font-size:9.5px;color:var(--ink-3);font-weight:600}
   .tm-hours span{text-align:center}
   .tm-hours span:not(.show){opacity:0}
@@ -231,7 +238,7 @@
   .tm-legend{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink-3);font-weight:600;margin-bottom:12px}
   .tm-legend span{display:inline-flex;align-items:center;gap:5px}
   .tm-legend i{width:10px;height:10px;border-radius:2px;background:var(--line-2);display:inline-block}
-  .tm-legend i.hot{background:var(--time-hot);box-shadow:inset 0 0 0 1px var(--time-hot-border)}.tm-legend i.pk{background:var(--brand)}
+  .tm-legend i.hot{background:var(--time-hot)}.tm-legend i.pk{background:var(--brand)}
   .peer-rank-big{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
   .peer-rank-big .num{font-size:32px;font-weight:700;letter-spacing:-0.03em}
   .peer-rank-big .of{font-size:14px;color:var(--ink-2);font-weight:500}
@@ -359,14 +366,6 @@
   /* ===== 정산 카드 v2 (Figma 28:1434 기준, design-tokens.md) ===== */
   .settle2,.rep2{border:1px solid #2929291a;border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,.05),0 0 4px rgba(0,0,0,.04);padding:20px;font-feature-settings:'ss05'}
   .settle2 .s2-head,.rep2 .r2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:20px;border-bottom:1px solid #2929291a;margin-bottom:16px}
-  .settle2 .s2-title{display:flex;align-items:center;gap:4px;font-size:18px;font-weight:600;color:#212121;letter-spacing:-0.036px}
-  .settle2 .s2-help{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:2px;color:#313131a3;cursor:help;flex-shrink:0}
-  .settle2 .s2-help svg{width:20px;height:20px;display:block}
-  .settle2 .s2-tip{position:absolute;top:calc(100% + 6px);left:0;z-index:20;display:none;flex-direction:column;gap:4px;background:#202020;color:#fff;padding:8px;border-radius:6px;white-space:nowrap;text-align:left;cursor:default;box-shadow:0 0 2px rgba(0,0,0,.04),0 8px 8px rgba(0,0,0,.08)}
-  .settle2 .s2-help:hover .s2-tip,.settle2 .s2-help:focus-visible .s2-tip{display:flex}
-  .settle2 .s2-tip b{font-size:13px;font-weight:600;line-height:1.385;letter-spacing:0.252px}
-  .settle2 .s2-tip span{font-size:12px;font-weight:400;line-height:1.334;letter-spacing:0.302px}
-  .settle2 .s2-stamp{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;margin-top:4px}
   .settle2 .s2-solid{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;background:#212121;color:#fff;border:0;border-radius:6px;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:0.203px;cursor:pointer;white-space:nowrap;flex-shrink:0}
   .settle2 .s2-connect{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;margin-bottom:16px;flex-wrap:wrap}
   .settle2 .s2-connect-desc{font-size:14px;font-weight:400;color:#292929cc}
@@ -396,18 +395,11 @@
   .settle2 .s2-type{padding:0 8px;font-size:14px;line-height:20px;font-weight:500;letter-spacing:0.0145em;color:#007cff;white-space:nowrap;font-feature-settings:'ss05'}
   .settle2 .s2-type.delivery{color:#10afc8}
   .settle2 .s2-cell .v{font-size:14px;font-weight:600;color:#212121;font-variant-numeric:tabular-nums}
+  .settle2 .s2-cell .v.fee-negative{color:var(--red)}
   .settle2 .s2-cell .c{font-size:12px;font-weight:400;color:#313131a3;margin-top:4px}
   .settle2 .s2-cell.right{text-align:right}
   .settle2 .s2-row>.s2-cell:nth-child(3){text-align:left}     /* 결제액 좌측 정렬 (Figma) */
   .settle2 .s2-row>.s2-cell:nth-child(4) .v{font-size:15px}   /* 수수료 값 15px (Body2) */
-  .settle2 .s2-ai{display:flex;min-width:328px;padding:16px 12px;flex-direction:column;align-items:flex-start;gap:8px;align-self:stretch;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;margin-top:16px}
-  .settle2 .s2-ai .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;line-height:16px;color:#10afc8;letter-spacing:0.302px;flex-shrink:0}
-  .settle2 .s2-ai .ai-ico{display:inline-flex;align-items:center;justify-content:center;background:#10afc8;border-radius:4px;padding:2px}
-  .settle2 .s2-ai .ai-ico svg{width:12px;height:12px}
-  .settle2 .s2-ai .ai-ico svg path{fill:#fff}
-  .settle2 .s2-ai .txt{display:block;font-size:12px;font-weight:500;color:#212121;line-height:16px;letter-spacing:0.302px;white-space:nowrap}
-  .rep2 .r2-title{font-size:18px;font-weight:600;color:#212121;letter-spacing:-0.036px;line-height:1.445}
-  .rep2 .r2-stamp{font-size:13px;font-weight:400;color:#313131a3;letter-spacing:0.252px;margin-top:4px}
   .rep2 .r2-chip{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;border-radius:999px;background:#f6f6f6;font-size:12px;font-weight:500;color:#212121;letter-spacing:0.302px}
   .rep2 .r2-connect{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;margin-bottom:16px;flex-wrap:wrap}
   .rep2 .r2-connect-desc{font-size:14px;font-weight:400;color:#292929cc}
@@ -432,23 +424,28 @@
   .rep2 .r2-cell .v{font-size:14px;font-weight:600;color:#212121;font-variant-numeric:tabular-nums}
   .rep2 .r2-cell .c{font-size:12px;font-weight:400;color:#313131a3;margin-top:4px}
   .rep2 .r2-cell.right{text-align:right}
-  .rep2 .r2-ai{display:flex;min-width:328px;padding:16px 12px;flex-direction:column;align-items:flex-start;gap:8px;align-self:stretch;background:linear-gradient(87.87deg,rgba(16,175,200,.04),rgba(16,175,200,.08));border-radius:8px;margin-top:16px}
-  .rep2 .r2-ai .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;line-height:16px;color:#10afc8;letter-spacing:0.302px;flex-shrink:0}
-  .rep2 .r2-ai .ai-ico{display:inline-flex;align-items:center;justify-content:center;background:#10afc8;border-radius:4px;padding:2px}
-  .rep2 .r2-ai .ai-ico svg{width:12px;height:12px}
-  .rep2 .r2-ai .txt{display:block;font-size:12px;font-weight:500;color:#212121;line-height:16px;letter-spacing:0.302px}
   @media(max-width:760px){
     .settle2 .s2-summary{grid-template-columns:1fr}
-    .settle2 .s2-row{grid-template-columns:auto 1fr;gap:8px 10px}
-    .settle2 .s2-cell.right{text-align:left}
-    .settle2 .s2-type{grid-row:1}
-    .settle2 .s2-ai{min-width:0}
-    .settle2 .s2-ai .txt{white-space:normal}
+    .settle2 .s2-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name type" "meta type" "sales sales" "fee fee" "deposit deposit";gap:6px 10px;align-items:start;padding:16px 8px}
+    .settle2 .s2-type{grid-area:type;justify-self:end;margin-top:1px;padding-right:0;text-align:right}
+    .settle2 .s2-row>.s2-cell:nth-child(2){display:contents}
+    .settle2 .s2-row>.s2-cell:nth-child(2) .v{grid-area:name}
+    .settle2 .s2-row>.s2-cell:nth-child(2) .c{grid-area:meta;margin-top:0}
+    .settle2 .s2-row>.s2-cell:nth-child(3){grid-area:sales}
+    .settle2 .s2-row>.s2-cell:nth-child(4){grid-area:fee}
+    .settle2 .s2-row>.s2-cell:nth-child(5){grid-area:deposit}
+    .settle2 .s2-row>.s2-cell:nth-child(3){margin-top:12px}
+    .settle2 .s2-row>.s2-cell:nth-child(n+3){display:flex;justify-content:space-between;align-items:baseline;gap:8px;text-align:left}
+    .settle2 .s2-row>.s2-cell:nth-child(n+3) .c{order:1;margin-top:0}
+    .settle2 .s2-row>.s2-cell:nth-child(n+3) .v{order:2}
+    .settle2 .s2-warn{align-items:flex-start;flex-wrap:wrap}
+    .settle2 .s2-warn .btn{order:3;width:100%;padding:11px;text-align:center;margin-top:4px}
+    .ai-advice{min-width:0}
+    .ai-advice-text{white-space:normal}
     .rep2 .r2-summary{grid-template-columns:1fr}
     .rep2 .r2-row{grid-template-columns:auto 1fr;gap:8px 10px}
     .rep2 .r2-cell.right{text-align:left}
     .rep2 .r2-type{grid-row:1}
-    .rep2 .r2-ai{min-width:0}
   }
   .freshness{margin-top:22px;text-align:center;font-size:11.5px;color:var(--ink-3);font-weight:400}
   .freshness b{color:var(--ink-2);font-weight:600}
@@ -470,9 +467,6 @@
     .grid{grid-template-columns:1fr;gap:13px;margin-top:18px}
     .span-2,.ai-card,.note-banner{grid-column:1}
     .ai-body,.fc-grid,.comp-grid{grid-template-columns:minmax(0,1fr);gap:20px}
-    .ai-suggest{gap:10px}
-    .ai-suggest .ai-badge{min-height:26px}
-    .ai-suggest .txt{font-size:12.8px;line-height:1.6}
     .card-head{align-items:flex-start}
     .card-actions{flex-direction:column;align-items:flex-end}
     .forecast-main{align-items:center;margin-bottom:13px}
@@ -571,17 +565,17 @@
           </div>
         </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">이번 달 초반 매출은 전월 동기간보다 높게 출발했어요. <b>전월 비교 버튼</b>으로 꺾이는 날짜가 있는지 확인하고, 그날의 채널·메뉴 원인을 같이 보세요.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">이번 달 초반 매출은 전월 동기간보다 높게 출발했어요. <b>전월 비교 버튼</b>으로 꺾이는 날짜가 있는지 확인하고, 그날의 채널·메뉴 원인을 같이 보세요.</span>
       </div>
     </section>
 
     <section class="card span-2 settle2 order-settlement-v2">
       <div class="s2-head">
-        <div>
-          <div class="s2-title">입금 예정 · 정산 현황 <span class="s2-help" tabindex="0" aria-label="입금 예정·정산 현황 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="s2-tip"><b>입금 예정 · 정산 현황</b><span>연동된 정산 데이터를 기준으로 계산한 입금 예정 금액이에요.<br>실제 입금액은 정산 확정 시점에 달라질 수 있어요.</span></span></span></div>
-          <div class="s2-stamp">오늘 06:00 기준</div>
+        <div class="card-title-block">
+          <div class="card-title">입금 예정 · 정산 현황 <button class="title-help" type="button" aria-label="입금 예정·정산 현황 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>입금 예정 · 정산 현황</b><span>연동된 정산 데이터를 기준으로 계산한 입금 예정 금액이에요.<br>실제 입금액은 정산 확정 시점에 달라질 수 있어요.</span></span></button></div>
+          <div class="stamp">오늘 06:00 기준</div>
         </div>
         <button class="s2-solid" type="button" data-open-connect><svg viewBox="0 0 12 12" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1.5C6.27614 1.5 6.5 1.72386 6.5 2V5.5H10C10.2761 5.5 10.5 5.72386 10.5 6C10.5 6.27614 10.2761 6.5 10 6.5H6.5V10C6.5 10.2761 6.27614 10.5 6 10.5C5.72386 10.5 5.5 10.2761 5.5 10V6.5H2C1.72386 6.5 1.5 6.27614 1.5 6C1.5 5.72386 1.72386 5.5 2 5.5H5.5V2C5.5 1.72386 5.72386 1.5 6 1.5Z" fill="#fff"/></svg>데이터 연동</button>
       </div>
@@ -613,21 +607,21 @@
           <span class="s2-type">카드</span>
           <div class="s2-cell"><div class="v">신한카드</div><div class="c">결제 26/05/30 · 금요일</div></div>
           <div class="s2-cell right"><div class="v">1,920,000원</div><div class="c">결제액</div></div>
-          <div class="s2-cell right"><div class="v">-9,600원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v fee-negative">-9,600원</div><div class="c">수수료 0.50%</div></div>
           <div class="s2-cell right"><div class="v">1,910,400원</div><div class="c">입금예정</div></div>
         </div>
         <div class="s2-row">
           <span class="s2-type">카드</span>
           <div class="s2-cell"><div class="v">국민은행</div><div class="c">출금 26/05/29 · 목요일</div></div>
           <div class="s2-cell right"><div class="v">500,000원</div><div class="c">결제액</div></div>
-          <div class="s2-cell right"><div class="v">-2,500원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v fee-negative">-2,500원</div><div class="c">수수료 0.50%</div></div>
           <div class="s2-cell right"><div class="v">497,500원</div><div class="c">입금예정</div></div>
         </div>
         <div class="s2-row">
           <span class="s2-type">카드</span>
           <div class="s2-cell"><div class="v">롯데카드</div><div class="c">결제 26/05/28 · 수요일</div></div>
           <div class="s2-cell right"><div class="v">3,200,000원</div><div class="c">결제액</div></div>
-          <div class="s2-cell right"><div class="v">-16,000원</div><div class="c">수수료 0.50%</div></div>
+          <div class="s2-cell right"><div class="v fee-negative">-16,000원</div><div class="c">수수료 0.50%</div></div>
           <div class="s2-cell right"><div class="v">3,184,000원</div><div class="c">입금예정</div></div>
         </div>
         <div class="s2-row">
@@ -653,9 +647,9 @@
         </div>
       </div>
 
-      <div class="s2-ai">
-        <span class="badge"><span class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752ZM2.77618 2.94752C2.86831 2.76326 3.13131 2.76326 3.22345 2.94752L3.46173 3.42506C3.48592 3.47344 3.52565 3.51318 3.57403 3.53737L4.05255 3.77662C4.23638 3.86893 4.23661 4.1318 4.05255 4.22389L3.57403 4.46217C3.52565 4.48636 3.48592 4.5261 3.46173 4.57448L3.22345 5.05299C3.13132 5.23697 2.86848 5.23678 2.77618 5.05299L2.53692 4.57448C2.51273 4.5261 2.473 4.48636 2.42462 4.46217L1.94708 4.22389C1.76282 4.13176 1.76282 3.86876 1.94708 3.77662L2.42462 3.53737C2.473 3.51318 2.51273 3.47344 2.53692 3.42506L2.77618 2.94752ZM9.46368 1.99342C9.41499 1.94472 9.33575 1.94494 9.28692 1.99342L7.65509 3.62526L8.37481 4.34498L10.0057 2.71315C10.0545 2.66433 10.0545 2.5852 10.0057 2.53639L9.46368 1.99342ZM5.27618 0.447523C5.36833 0.263261 5.63135 0.263261 5.72345 0.447523L5.9627 0.925062C5.98685 0.973442 6.02563 1.01318 6.07403 1.03737L6.55255 1.27662C6.73643 1.36891 6.73662 1.63179 6.55255 1.72389L6.07403 1.96217C6.02568 1.98634 5.98686 2.02617 5.9627 2.07448L5.72345 2.55299C5.63136 2.73703 5.36848 2.73686 5.27618 2.55299L5.03692 2.07448C5.01277 2.0261 4.973 1.98636 4.92462 1.96217L4.44708 1.72389C4.26282 1.63176 4.26282 1.36876 4.44708 1.27662L4.92462 1.03737C4.973 1.01318 5.01277 0.973442 5.03692 0.925062L5.27618 0.447523Z" fill="#fff"/></svg></span>AI 어드바이스</span>
-        <span class="txt">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. 오늘 입금액과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752ZM2.77618 2.94752C2.86831 2.76326 3.13131 2.76326 3.22345 2.94752L3.46173 3.42506C3.48592 3.47344 3.52565 3.51318 3.57403 3.53737L4.05255 3.77662C4.23638 3.86893 4.23661 4.1318 4.05255 4.22389L3.57403 4.46217C3.52565 4.48636 3.48592 4.5261 3.46173 4.57448L3.22345 5.05299C3.13132 5.23697 2.86848 5.23678 2.77618 5.05299L2.53692 4.57448C2.51273 4.5261 2.473 4.48636 2.42462 4.46217L1.94708 4.22389C1.76282 4.13176 1.76282 3.86876 1.94708 3.77662L2.42462 3.53737C2.473 3.51318 2.51273 3.47344 2.53692 3.42506L2.77618 2.94752ZM9.46368 1.99342C9.41499 1.94472 9.33575 1.94494 9.28692 1.99342L7.65509 3.62526L8.37481 4.34498L10.0057 2.71315C10.0545 2.66433 10.0545 2.5852 10.0057 2.53639L9.46368 1.99342ZM5.27618 0.447523C5.36833 0.263261 5.63135 0.263261 5.72345 0.447523L5.9627 0.925062C5.98685 0.973442 6.02563 1.01318 6.07403 1.03737L6.55255 1.27662C6.73643 1.36891 6.73662 1.63179 6.55255 1.72389L6.07403 1.96217C6.02568 1.98634 5.98686 2.02617 5.9627 2.07448L5.72345 2.55299C5.63136 2.73703 5.36848 2.73686 5.27618 2.55299L5.03692 2.07448C5.01277 2.0261 4.973 1.98636 4.92462 1.96217L4.44708 1.72389C4.26282 1.63176 4.26282 1.36876 4.44708 1.27662L4.92462 1.03737C4.973 1.01318 5.01277 0.973442 5.03692 0.925062L5.27618 0.447523Z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">추가 입금 예상액은 아직 정산일이 확정되지 않은 돈이에요. 오늘 입금액과 섞어 보지 말고, 이번 주 확정 입금으로 넘어오는지 매일 확인하는 게 좋습니다.</span>
       </div>
     </section>
 
@@ -674,15 +668,14 @@
           <div class="ev"><span class="ev-dot muted"></span><div class="ev-txt"><strong>피크는 19시 (412,000원)</strong><span>저녁 손님은 충분히 들어옴</span></div></div>
         </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt"><b>23시 한정 세트·라스트오더 안내</b>로 마감 직전 매출을 잡아보세요. 22시 이후 들어오는 손님이 평균 8팀 — 이들을 한 잔 더 머물게 하면 23시 매출을 메울 수 있어요.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text"><b>23시 한정 세트·라스트오더 안내</b>로 마감 직전 매출을 잡아보세요. 22시 이후 들어오는 손님이 평균 8팀 — 이들을 한 잔 더 머물게 하면 23시 매출을 메울 수 있어요.</span>
       </div>
     </section>
 
     <section class="card fc span-2 order-forecast">
-      <div class="card-head"><span class="card-title">내일 매출 브리핑</span><span class="stamp">방금 전</span></div>
-      <div class="card-sub">내일 예상 매출과 앞으로 7일 추이를 한눈에</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">내일 매출 브리핑 <button class="title-help" type="button" aria-label="내일 매출 브리핑 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>내일 매출 브리핑</b><span>내일 예상 매출과 앞으로 7일 추이를 한눈에 보여줘요.</span></span></button></div><div class="stamp">방금 전</div></div></div>
       <div class="fc-grid">
         <div class="fc-left">
           <div class="forecast-main"><span class="big">1,920,000원</span><span class="ci">±384,000원</span><span class="daychip">화요일 예상</span></div>
@@ -704,15 +697,14 @@
           <div class="trend-note">막대를 보면 주말(토·일)에 매출이 오를 것으로 예측돼요.</div>
         </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">내일은 평소 화요일과 거의 비슷해요. 큰 할인보다 <b>19시 피크 메뉴 재고</b>와 배달앱 노출 시간을 먼저 맞추는 편이 안전합니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">내일은 평소 화요일과 거의 비슷해요. 큰 할인보다 <b>19시 피크 메뉴 재고</b>와 배달앱 노출 시간을 먼저 맞추는 편이 안전합니다.</span>
       </div>
     </section>
 
     <section class="card span-2 order-channel">
-      <div class="card-head"><span class="card-title">채널 비중</span><span class="stamp">2시간 전</span></div>
-      <div class="card-sub">어제 매출을 홀·배달·포장으로 나눠봤어요</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">채널 비중 <button class="title-help" type="button" aria-label="채널 비중 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>채널 비중</b><span>어제 매출을 홀·배달·포장으로 나눠 보여줘요.</span></span></button></div><div class="stamp">2시간 전</div></div></div>
       <div class="ch-bar">
         <span class="ch-seg hall" style="--w:58%">홀 58%</span>
         <span class="ch-seg deli" style="--w:27%">배달 27%</span>
@@ -727,26 +719,24 @@
         <div class="ch-src-row"><span class="ico">🧾</span><span>홀·포장은 <b>POS 영수증</b>에서 결제수단·테이블 구분으로 집계</span><span class="src-ok">연동됨</span></div>
         <div class="ch-src-row"><span class="ico">🛵</span><span>배달은 <b>배달앱 주문 연동</b>(배민·쿠팡이츠)에서 집계</span><span class="src-ok">연동됨</span></div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">포장 비중(15%)이 동네 평균(24%)보다 낮아요. <b>포장 전용 메뉴·픽업 할인</b>을 안내하면 홀이 붐비는 시간의 매출을 더 받을 수 있습니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">포장 비중(15%)이 동네 평균(24%)보다 낮아요. <b>포장 전용 메뉴·픽업 할인</b>을 안내하면 홀이 붐비는 시간의 매출을 더 받을 수 있습니다.</span>
       </div>
     </section>
 
     <section class="card span-2 order-menu">
-      <div class="card-head"><span class="card-title">어제 메뉴 매출 TOP 5</span><span class="stamp">2시간 전</span></div>
-      <div class="card-sub">어떤 메뉴가 몇 시에 강했는지, 시간대별 판매 흐름까지 같이 봅니다</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">어제 메뉴 매출 TOP 5 <button class="title-help" type="button" aria-label="어제 메뉴 매출 TOP 5 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>어제 메뉴 매출 TOP 5</b><span>어떤 메뉴가 몇 시에 강했는지, 시간대별 판매 흐름까지 같이 봅니다.</span></span></button></div><div class="stamp">2시간 전</div></div></div>
       <div class="tm-legend"><span><i></i>판매 발생</span><span><i class="hot"></i>강한 시간대</span><span><i class="pk"></i>피크</span></div>
       <div id="topMenu"></div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">소주와 쌀국수가 <b>19시에 함께 가장 많이</b> 팔려요(동시 주문 34%). 이 둘을 묶은 <b>저녁 세트</b>를 19시 전후로 노출하면 객단가를 올릴 수 있습니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">소주와 쌀국수가 <b>19시에 함께 가장 많이</b> 팔려요(동시 주문 34%). 이 둘을 묶은 <b>저녁 세트</b>를 19시 전후로 노출하면 객단가를 올릴 수 있습니다.</span>
       </div>
     </section>
 
     <section class="card span-2 order-rank">
-      <div class="card-head"><span class="card-title">동네 동종업 중 내 순위</span><span class="stamp">2시간 전</span></div>
-      <div class="card-sub">반경 500m 안 같은 업종 가게들과 비교하면</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">동네 동종업 중 내 순위 <button class="title-help" type="button" aria-label="동네 동종업 중 내 순위 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>동네 동종업 중 내 순위</b><span>반경 500m 안 같은 업종 가게들과 비교한 순위를 보여줘요.</span></span></button></div><div class="stamp">2시간 전</div></div></div>
       <div class="peer-rank-big"><span class="num">8위</span><span class="of">/ 동종업 43곳 중</span></div>
       <div class="peer-pct">상위 19% — 동네에서 잘하는 편이에요</div>
       <div class="scale"><span class="me" style="--pos:81%"></span></div>
@@ -757,15 +747,14 @@
         <div class="pm"><div class="k">재방문율</div><div class="v">31%</div><div class="d down">동네 -4%</div></div>
       </div>
       <div class="peer-def"><span class="tagdef">비교 기준</span> 반경 500m · 동종 업종 · 최근 30일 영업 매장 43곳</div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">매출과 객단가는 좋은 편이지만 재방문율이 낮아요. <b>영수증 쿠폰·재방문 혜택</b>을 7일 안에 쓰게 설계하면 순위 방어에 도움이 됩니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">매출과 객단가는 좋은 편이지만 재방문율이 낮아요. <b>영수증 쿠폰·재방문 혜택</b>을 7일 안에 쓰게 설계하면 순위 방어에 도움이 됩니다.</span>
       </div>
     </section>
 
     <section class="card span-2 order-comp">
-      <div class="card-head"><span class="card-title">우리 동네 경쟁</span><span class="stamp">2시간 전</span></div>
-      <div class="card-sub">반경 500m 안 동종업 43곳 · SEMAS 공인 상권 기준</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">우리 동네 경쟁 <button class="title-help" type="button" aria-label="우리 동네 경쟁 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>우리 동네 경쟁</b><span>반경 500m 안 동종업 43곳을 SEMAS 공인 상권 기준으로 비교해요.</span></span></button></div><div class="stamp">2시간 전</div></div></div>
       <div class="comp-grid">
         <div class="map" id="compMap">
           <div class="road h" style="top:46%"></div>
@@ -786,15 +775,14 @@
           <div class="comp-foot">바로 위 2곳과 매출 차이는 일평균 210,000원</div>
         </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">바로 위 7위 가게와 일평균 차이가 <b>210,000원</b>으로 작아요. 약점인 <b>23시 매출</b>만 메우면 순위를 올릴 여지가 충분합니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">바로 위 7위 가게와 일평균 차이가 <b>210,000원</b>으로 작아요. 약점인 <b>23시 매출</b>만 메우면 순위를 올릴 여지가 충분합니다.</span>
       </div>
     </section>
 
     <section class="card price-card span-2 order-price">
-      <div class="card-head"><span class="card-title">동네 동종업 가격대 분포</span><span class="stamp">2시간 전</span></div>
-      <div class="card-sub">반경 500m 안 동종업 매장 31곳의 평균 객단가와 비교합니다</div>
+      <div class="card-head"><div class="card-title-block"><div class="card-title">동네 동종업 가격대 분포 <button class="title-help" type="button" aria-label="동네 동종업 가격대 분포 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>동네 동종업 가격대 분포</b><span>반경 500m 안 동종업 매장 31곳의 평균 객단가와 비교합니다.</span></span></button></div><div class="stamp">2시간 전</div></div></div>
       <div class="price-grid">
         <div class="price-summary">
           <div class="price-main"><span class="num">+8%</span><span class="lab">중앙값보다 높음</span></div>
@@ -820,17 +808,17 @@
           <div class="price-note">가격은 약간 높은 편이지만 재방문율은 동네 평균보다 높아요. 할인보다 세트 구성과 피크 시간 노출을 우선 보는 게 좋습니다.</div>
         </div>
       </div>
-      <div class="ai-suggest">
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg>AI 어드바이스</span>
-        <span class="txt">가격은 동네 중앙값보다 높지만 주류는 동일가예요. <b>식사 메뉴 단품 할인</b>보다 주류와 묶은 세트로 체감 가격을 낮추는 쪽이 좋습니다.</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5 9.8 12.2 3.5 10l6.3-1.7L12 2z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">가격은 동네 중앙값보다 높지만 주류는 동일가예요. <b>식사 메뉴 단품 할인</b>보다 주류와 묶은 세트로 체감 가격을 낮추는 쪽이 좋습니다.</span>
       </div>
     </section>
 
     <section class="card span-2 rep2 order-reputation">
       <div class="r2-head">
-        <div>
-          <div class="r2-title">네이버·카카오 평판</div>
-          <div class="r2-stamp" id="repStamp">준비 중</div>
+        <div class="card-title-block">
+          <div class="card-title">네이버·카카오 평판 <button class="title-help" type="button" aria-label="네이버·카카오 평판 안내"><svg viewBox="0 0 20 20" fill="none"><path d="M9.99996 18.3334C5.39759 18.3334 1.66663 14.6025 1.66663 10.0001C1.66663 5.39771 5.39759 1.66675 9.99996 1.66675C14.6023 1.66675 18.3333 5.39771 18.3333 10.0001C18.3333 14.6025 14.6023 18.3334 9.99996 18.3334ZM9.99996 17.0834C13.912 17.0834 17.0833 13.9121 17.0833 10.0001C17.0833 6.08806 13.912 2.91675 9.99996 2.91675C6.08794 2.91675 2.91663 6.08806 2.91663 10.0001C2.91663 13.9121 6.08794 17.0834 9.99996 17.0834ZM9.99996 7.50008C9.53972 7.50008 9.16663 7.12698 9.16663 6.66675C9.16663 6.20651 9.53972 5.83342 9.99996 5.83341C10.4602 5.83341 10.8333 6.20651 10.8333 6.66675C10.8333 7.12699 10.4602 7.50008 9.99996 7.50008ZM9.99996 14.1667C9.65478 14.1667 9.37496 13.8869 9.37496 13.5417V9.79175C9.37496 9.44657 9.65478 9.16675 9.99996 9.16675C10.3451 9.16675 10.625 9.44657 10.625 9.79175V13.5417C10.625 13.8869 10.3451 14.1667 9.99996 14.1667Z" fill="currentColor"/></svg><span class="title-tip"><b>네이버·카카오 평판</b><span>네이버·카카오 리뷰 매칭과 수집이 끝나면 평판 요약을 보여줘요.</span></span></button></div>
+          <div class="stamp" id="repStamp">준비 중</div>
         </div>
       </div>
       <div id="repBody">
@@ -855,9 +843,9 @@
           </div>
         </div>
       </div>
-      <div class="r2-ai">
-        <span class="badge"><span class="ai-ico"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752Z" fill="#fff"/></svg></span>AI 어드바이스</span>
-        <span class="txt">네이버·카카오 리뷰 평판은 매칭·수집이 완료되면 표시돼요. (준비 중)</span>
+      <div class="ai-advice">
+        <span class="ai-advice-badge"><span class="ai-advice-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M8.75567 1.46315C9.09737 1.12144 9.65225 1.12144 9.99395 1.46315L10.5369 2.00612C10.8783 2.34773 10.8782 2.90174 10.5369 3.24342L3.24395 10.5364C2.90224 10.8781 2.34738 10.8781 2.00567 10.5364L1.46368 9.99342C1.12197 9.65172 1.12197 9.09782 1.46368 8.75612L8.75567 1.46315ZM9.77618 5.94752C9.86828 5.76327 10.1313 5.76327 10.2234 5.94752L10.4627 6.42506C10.4869 6.47346 10.5256 6.51322 10.574 6.53737L11.0525 6.77662C11.2364 6.86893 11.2367 7.13184 11.0525 7.22389L10.574 7.46217C10.5257 7.48635 10.4869 7.52613 10.4627 7.57448L10.2234 8.05299C10.1313 8.23697 9.86844 8.2368 9.77618 8.05299L9.53692 7.57448C9.51277 7.52608 9.47302 7.48637 9.42462 7.46217L8.94708 7.22389C8.76283 7.13179 8.76283 6.86877 8.94708 6.77662L9.42462 6.53737C9.47302 6.51322 9.51277 6.47346 9.53692 6.42506L9.77618 5.94752Z" fill="#fff"/></svg></span>AI 어드바이스</span>
+        <span class="ai-advice-text">네이버·카카오 리뷰 평판은 매칭·수집이 완료되면 표시돼요. (준비 중)</span>
       </div>
     </section>
   </div>
@@ -902,8 +890,10 @@
 <script>
   const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const connectModal=document.getElementById('connectModal');
-  const openConnect=()=>{connectModal.classList.add('is-open');connectModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';connectModal.querySelector('input')?.focus();};
-  const closeConnect=()=>{connectModal.classList.remove('is-open');connectModal.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+  const syncPageScrollLock=()=>{document.body.style.overflow=connectModal.classList.contains('is-open')?'hidden':'';};
+  const openConnect=()=>{connectModal.classList.add('is-open');connectModal.setAttribute('aria-hidden','false');syncPageScrollLock();connectModal.querySelector('input')?.focus();};
+  const closeConnect=()=>{connectModal.classList.remove('is-open');connectModal.setAttribute('aria-hidden','true');syncPageScrollLock();};
+  syncPageScrollLock();
   document.querySelectorAll('[data-open-connect]').forEach(btn=>btn.addEventListener('click',openConnect));
   document.querySelectorAll('[data-close-connect]').forEach(btn=>btn.addEventListener('click',closeConnect));
   connectModal.addEventListener('click',e=>{if(e.target===connectModal)closeConnect();});
@@ -988,6 +978,25 @@
     el.addEventListener('focus',()=>{const r=el.getBoundingClientRect();showTip(text,r.left+r.width/2,r.top);});
     el.addEventListener('blur',hideTip);
   };
+  document.querySelectorAll('.title-help').forEach(help=>{
+    help.dataset.bound='true';
+    help.addEventListener('keydown',e=>{
+      if(e.key==='Escape') help.classList.remove('is-open');
+    });
+  });
+  document.addEventListener('click',e=>{
+    const help=e.target.closest('.title-help');
+    if(!help) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const isOpen=help.classList.contains('is-open');
+    document.querySelectorAll('.title-help.is-open').forEach(open=>open.classList.remove('is-open'));
+    if(!isOpen) help.classList.add('is-open');
+  },true);
+  document.addEventListener('click',e=>{
+    if(e.target.closest('.title-help')) return;
+    document.querySelectorAll('.title-help.is-open').forEach(open=>open.classList.remove('is-open'));
+  });
 
   const now=new Date();
   const weekdays=['일','월','화','수','목','금','토'];
@@ -1161,7 +1170,7 @@
   }
 
   function applyAdvice(r){
-    const nodes=document.querySelectorAll('.ai-suggest .txt');
+    const nodes=document.querySelectorAll('.ai-advice .ai-advice-text');
     nodes.forEach((el,i)=>{
       const key=ADVICE_ORDER[i]; if(!key) return;
       const gate=ADVICE_GATE[key];
