@@ -18,11 +18,11 @@
     --radius:6px;--shadow:none;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;background:var(--bg);
     color:var(--ink);line-height:1.5;letter-spacing:-0.03em;padding-bottom:64px;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(120%) blur(8px);backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
   .head-inner{max-width:1040px;margin:0 auto;padding:16px 20px;display:flex;align-items:center;gap:14px}
   .logo{width:44px;height:44px;border-radius:6px;flex-shrink:0;background:#22211f;
     display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;box-shadow:none}
@@ -861,24 +861,24 @@
       <button class="modal-close" type="button" data-close-connect aria-label="닫기">×</button>
     </div>
     <div class="provider-list">
-      <div class="provider-card">
+      <form class="provider-card provider-form">
         <div class="provider-top"><span class="provider-name">여신금융협회</span><span class="provider-tag">카드 정산</span></div>
         <div class="provider-field"><label for="yc-id">아이디</label><input id="yc-id" type="text" autocomplete="username" placeholder="여신협회 아이디"></div>
         <div class="provider-field"><label for="yc-pw">패스워드</label><input id="yc-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
         <div class="provider-help">카드사별 매출, 수수료, 입금 예정일을 확인하는 데 사용됩니다.</div>
-      </div>
-      <div class="provider-card">
+      </form>
+      <form class="provider-card provider-form">
         <div class="provider-top"><span class="provider-name">배달의민족</span><span class="provider-tag">배달 정산</span></div>
         <div class="provider-field"><label for="baemin-id">아이디</label><input id="baemin-id" type="text" autocomplete="username" placeholder="배민 사장님광장 아이디"></div>
         <div class="provider-field"><label for="baemin-pw">패스워드</label><input id="baemin-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
         <div class="provider-help">배민 주문액, 수수료, 정산 예정액을 함께 반영합니다.</div>
-      </div>
-      <div class="provider-card">
+      </form>
+      <form class="provider-card provider-form">
         <div class="provider-top"><span class="provider-name">쿠팡이츠</span><span class="provider-tag">배달 정산</span></div>
         <div class="provider-field"><label for="coupang-id">아이디</label><input id="coupang-id" type="text" autocomplete="username" placeholder="쿠팡이츠 스토어 아이디"></div>
         <div class="provider-field"><label for="coupang-pw">패스워드</label><input id="coupang-pw" type="password" autocomplete="current-password" placeholder="패스워드"></div>
         <div class="provider-help">쿠팡이츠 주문액, 수수료, 정산 예정액을 함께 반영합니다.</div>
-      </div>
+      </form>
     </div>
     <div class="modal-note">프로토타입 화면입니다. 실제 서비스에서는 아이디와 패스워드를 프론트에 저장하지 않고, 서버에서 암호화와 권한 처리를 거쳐 안전하게 연동해야 합니다.</div>
     <div class="modal-actions">
@@ -898,7 +898,7 @@
   document.querySelectorAll('[data-close-connect]').forEach(btn=>btn.addEventListener('click',closeConnect));
   connectModal.addEventListener('click',e=>{if(e.target===connectModal)closeConnect();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&connectModal.classList.contains('is-open'))closeConnect();});
-  document.getElementById('connectSubmit').addEventListener('click',()=>{
+  const submitConnect=()=>{
     const connectCopy=document.querySelector('.s2-connect-desc') || document.querySelector('.connect-copy');
     if(connectCopy) connectCopy.innerHTML='<b>데이터 연동 완료</b> — 카드·배달앱 정산 데이터를 기준으로 확정 입금액을 확인했어요.';
     document.querySelectorAll('.connect-chip').forEach(chip=>chip.textContent=chip.textContent.replace(' 확인중','')+' 연동됨');
@@ -911,7 +911,12 @@
       animateMetric(pendingBox.querySelector('.v'),7547020,{suffix:'원',duration:680});
     }
     closeConnect();
-  });
+  };
+  document.querySelectorAll('.provider-form').forEach(form=>form.addEventListener('submit',e=>{
+    e.preventDefault();
+    submitConnect();
+  }));
+  document.getElementById('connectSubmit').addEventListener('click',submitConnect);
   const tip=document.createElement('div');
   tip.className='chart-tip';
   document.body.appendChild(tip);
